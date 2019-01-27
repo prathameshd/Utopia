@@ -1,4 +1,4 @@
-#importing service to test the restration method
+#importing service to test the registration method
 from Services.service import Service
 
 #importing required libraries for unittesting
