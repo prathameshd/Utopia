@@ -27,6 +27,20 @@ def register():
 	except Exception as e:
 		return jsonify(e), 500
 
+# API to check the user's credentials and return JWT token
+@app.route("/login", methods=['POST'])
+def check():
+	data = request.json
+	try:
+		service = Service()
+		response = service.login(data)
+		if isinstance(response, User):
+			return jsonpickle.encode(response, unpicklable=False), 200
+		else:
+			return jsonify({'Error': response}), 500
+	except Exception as e:
+		return jsonify(e), 500
+
 #The application starts running from here
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 5000)
