@@ -1,0 +1,5 @@
+flask
+PyJwt
+jsonpickle
+dnspython
+pymongo
