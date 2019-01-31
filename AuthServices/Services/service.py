@@ -17,7 +17,6 @@ class Service:
 	def register(self, user):
 		try:
 			service = Service()
-			print(user)
 			if(service.is_valid_email(user['email'])):
 				if(user['password']==user['confirmPassword']):
 					mongo_config = MongoConfig()
@@ -36,7 +35,6 @@ class Service:
 			else:
 				return "Please enter proper email address"
 		except Exception as e:
-			print(e)
 			return e
 
 	# Checkthe validity of the email
