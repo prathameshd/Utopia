@@ -24,6 +24,8 @@ class Service:
 					if(collection):
 						crypto = Crypto()
 						user['password'] = crypto.encrypted_string(user['password'])
+						if "confirmPassword" in user:
+							del user['confirmPassword']
 						saved_user = collection.insert_one(user)
 						user = User()
 						user.user_id = str(saved_user.inserted_id)
@@ -55,6 +57,7 @@ class Service:
 					if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
 						user_obj.first_name = user[0]['firstName']
 						user_obj.last_name = user[0]['lastName']
+						user_obj.user_id = str(user[0]['_id'])
 						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
 						return user_obj
 					else:
