@@ -1,3 +1,3 @@
 # Profile Services
 
-This is code for Profile Services, which will be developed in Go.
+This repo contains the APIs for User Management Services like setHistoryAndMood, getHistoryAndMood etc.
