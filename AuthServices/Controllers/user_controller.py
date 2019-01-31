@@ -23,6 +23,7 @@ def register():
 		if isinstance(response, User):
 			return jsonpickle.encode(response, unpicklable=False), 200
 		else:
+			print(response)
 			return jsonify({'Error': response}), 500
 	except Exception as e:
 		return jsonify(e), 500
