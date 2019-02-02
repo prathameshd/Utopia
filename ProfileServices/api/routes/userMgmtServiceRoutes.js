@@ -8,5 +8,8 @@ module.exports = function(app) {
   
   app.route('/setHistoryAndMood')
   	.post(userMgmt.set_history_and_mood);
+  
+  app.route('/getPersonalDetails')
+  	.get(userMgmt.get_personal_details);
     
 };
