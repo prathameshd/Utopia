@@ -49,11 +49,11 @@ exports.set_history_and_mood = function(req, res){
 						{ $push: {
 							history: { 
 									$each: [curr_song], 
-									$slice: -5
+									$slice: -10
 								},
 							mood:{
 									$each: [curr_mood],
-									$slice: -5
+									$slice: -10
 							}
 						 }
 							
