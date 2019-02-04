@@ -25,7 +25,7 @@ MongoClient.connect(MONGO_STRING, function(err, client) {
   
   // Starting the server
   app.listen(port);
-  console.log("Server started on: " + port); 
+  console.log("[UserMgmt] NodeJS Server started on: " + port); 
 });
 
 // For parsing requests

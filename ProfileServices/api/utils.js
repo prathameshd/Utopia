@@ -11,6 +11,7 @@ module.exports =  {
 	},
 	
 	// Use this to extract token from the Authorization header
+	// If header not in proper format, return null
 	get_token_from_header: function(req){
 		 if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
 			 return req.headers.authorization.split(' ')[1];

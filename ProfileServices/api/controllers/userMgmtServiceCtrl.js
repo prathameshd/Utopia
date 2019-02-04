@@ -35,6 +35,7 @@ exports.get_history_and_mood = function(req, res) {
 		else	
 			resultJSON = utils.custom_JSON_formatter("success", docs); 
 		
+		console.log(resultJSON)
 		res.json(resultJSON);
 	});
 };
@@ -93,6 +94,7 @@ exports.get_personal_details = function(req,res){
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id;
 	
+	// if auth header was not in proper format, jwt_token would be null
 	if(jwt_token !== null)
 	{
 		user_id = jwt.decode(jwt_token, {complete:true}).payload.sub;
@@ -100,13 +102,16 @@ exports.get_personal_details = function(req,res){
 		res.json(utils.custom_JSON_formatter("invalid token", "Check format of Authorization header!"));
 	}
 	
+	// Querying "_id" will give personal details
+	// NOTE: Querying "userId" gives history and mood
 	db.collection(UTOPIA_COLLECTION).find({"_id" : ObjectId(user_id)}).toArray(function(err, docs){
 		var resultJSON;
 		if(err)
 			resultJSON = utils.custom_JSON_formatter("error", err); 
+		
 		else	
 		{
-			delete docs[0]['password']; 
+			delete docs[0]['password'];  // removing password from response
 			resultJSON = utils.custom_JSON_formatter("success", docs); 
 		}
 		
