@@ -20,7 +20,7 @@ exports.get_history_and_mood = function(req, res) {
 	
 	if(user_id == null)
 	{
-		res.json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
+		res.status(401).json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
 	}
 	
 	else{
@@ -53,7 +53,7 @@ exports.set_history_and_mood = function(req, res){
 	
 	if(user_id == null)
 	{
-		res.json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
+		res.status(401).json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
 	}
 	
 	else{
@@ -92,7 +92,7 @@ exports.get_personal_details = function(req,res){
 	
 	if(user_id == null)
 	{
-		res.json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
+		res.status(401).json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
 	}
 	
 	else
