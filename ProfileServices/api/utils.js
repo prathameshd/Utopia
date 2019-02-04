@@ -2,6 +2,7 @@
  * Utility functions
  */
 'use strict';
+var jwt = require('jsonwebtoken');
 
 module.exports =  {
 	
@@ -19,6 +20,17 @@ module.exports =  {
 		 else{
 			 return null;
 		 }
+	},
+	
+	// Verifies token signature and returns userId if it's proper
+	check_validity_and_get_user_id: function(token){
+		try{
+			var decoded = jwt.verify(token, 'utopia');
+			return decoded.sub;
+		} catch(err){
+			return null;
+		}
+		
 	}
 		
 };
