@@ -1,6 +1,7 @@
 #Importing pre-defined classes
 from flask import Flask,request,jsonify
 import jsonpickle
+from flask_cors import CORS,cross_origin
 
 #Importing models
 from Models.User import User
@@ -12,6 +13,10 @@ from Services.service import Service
 #in order to access any images
 app = Flask(__name__, static_url_path='/static')
 app.config.from_object(__name__)
+
+# Below is to enable requests from other domains i.e, enable React to access these APIs
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 # API to register a user
 @app.route("/register", methods=['POST'])
