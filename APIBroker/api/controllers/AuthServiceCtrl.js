@@ -81,7 +81,7 @@ exports.search_song = function(req, res) {
 	}
 	else
 	{
-		var query="linkin park";
+		var query=req["body"]["q"];
 		var accessToken=req["body"]["access_token"]
 		return axios
 			({
