@@ -3,3 +3,4 @@ PyJwt
 jsonpickle
 dnspython
 pymongo
+flask-cors
