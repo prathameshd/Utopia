@@ -19,26 +19,39 @@ type UserHistory struct {
 	} `json:"data"`
 }
 
+func PreflightGetRecommendedValence(w http.ResponseWriter, r *http.Request){
+
+	 w.Header().Set("Access-Control-Allow-Origin", "*")
+
+    w.Header().Set("Access-Control-Allow-Headers", "*")
+    // return "OK"
+    json.NewEncoder(w).Encode("OK")
+	
+}
 
 // Hits UserMgmt micro-service to fetch recent mood/valence counts.
 // Finds avg valence and returns that value to caller
 // Returns a JSON with avg value as data
 // NB: JWT verification happens at the second micro-service for this func
 func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
+	
+	 w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	incomingAuthHeader := r.Header.Get("Authorization")
 	
 	// Extracting token (removes "Bearer ")
 	token := incomingAuthHeader[7:]
-	
+	fmt.Printf("%s TOKEN: ", token)
 	DOMAIN := "localhost"
 	PORT := "3001"
 	USER_MGMT_URL := "http://"+DOMAIN+":" + PORT
-
+	
 	// Passing the JWT token along to the next micro-service...
 	request, _ := http.NewRequest("GET", USER_MGMT_URL+ "/getHistoryAndMood", nil)
 	request.Header.Set("Authorization", "Bearer "+ token)
 	client := &http.Client{}
 	response, err := client.Do(request)
+	
 	
 	// Checking if token is valid happens at the other micro-service!!
 	// If status code is 200, it means that JWT is correctly verified
@@ -75,6 +88,7 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 		avg = sum/length_of_moods
 		
 		success_data := map[string]string{"message":"success", "data":fmt.Sprintf("%f", avg) }
+		
 		utils.Respond(w, success_data, "OK")		
 	} 
 }

@@ -11,5 +11,11 @@ module.exports = function(app) {
   
   app.route('/searchSong')
   .post(spotifyAuth.search_song)
+
+  app.route('/getValence')
+  .post(spotifyAuth.get_valence)
+
+  app.route('/getRecommendedTracks')
+  .post(spotifyAuth.get_recommended_track)
     
 };

@@ -28,11 +28,14 @@ MongoClient.connect(MONGO_STRING, function(err, client) {
   console.log("[UserMgmt] NodeJS Server started on: " + port); 
 });
 
+const cors = require('cors')
+
 // For parsing requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json()); // supports JSON encoded bodies for POST
 app.use(express.urlencoded()); // supports URL encoded bodies
+app.use(cors())
 
 //importing route
 var routes = require('./api/routes/userMgmtServiceRoutes'); 

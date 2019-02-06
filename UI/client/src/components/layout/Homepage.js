@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-
+import CardMedia from '@material-ui/core/CardMedia';
 var query="carnival";
 
 //	<link rel="stylesheet" type="text/css" href="home.css">
@@ -18,26 +15,32 @@ class Homepage extends Component
 		this.state={accessToken:"",
 					currentSong:"https://open.spotify.com/embed/track/4bHsxqR3GMrXTxEPLuK5ue",
 					searchResults: [],
+					arrayOfRecommended: [],
 					isSearchResultsVisible: false,
-					courseCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
+					isRecommendationsVisible: false,
+					songCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
 					};
 		this.searchSongs=this.searchSongs.bind(this)	
 		this.playSong=this.playSong.bind(this)
 		this.handleEnterKey=this.handleEnterKey.bind(this)
-
+		this.getValenceFromAPIBroker = this.getValenceFromAPIBroker.bind(this)
+		this.setHistory = this.setHistory.bind(this)
+		this.getRecommendedValence = this.getRecommendedValence.bind(this)
 
 	}
 	
 	
  componentDidMount() 
  {
+ 	console.log(" ########### INSIDE ComponentDidMount ####################")
 	  var x=window.location.href;
 	  var codeCode=x.split('code=')[1];
 		if(!codeCode)
 		{
 				window.location='/';
 		}
-		  
+	  this.getRecommendedValence(); // Used for getting recommendations
+
 		return axios
 		({
 			method:'post',
@@ -68,16 +71,165 @@ class Homepage extends Component
         console.log("No search results ", err)
         return([])
       })
+
+     
 	 
-	}
+} // ComponentDidMount
+
+///////
+// Returns suggested tracks
+///////
+getRecommendedTrackList(valence){
+	console.log("Got avg valence!!! Let's get some tracks now!!")
+	return axios
+		({
+			method:'post',
+			url:'http://localhost:3002/getRecommendedTracks',
+			data:{
+					access_token:sessionStorage.getItem('spotifyToken'),
+					valence: valence
+				 },
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+			}
+		
+		})
+      .then((response)=>
+	  {  
+	  	console.log("RECOMMENDED TRACKS ARE: ",response.data) 
+        if(response.status === 200)
+        {
+        	
+        	var finalRecommendedTracks = response.data.data;
+        	this.setState({arrayOfRecommended: finalRecommendedTracks})
+        	this.setState({isRecommendationsVisible: true})
+        }
+        else{
+        	
+          	return([])
+        }
+      }).catch(err => {
+	      	
+	        console.log("Couldn't get history for user :( ", err)
+	        return([])
+      })
+}
+
+
+// ----------- 
+// Fetches valence and then calls next func
+// to get suggested tracks
+// -----------
+getRecommendedValence(){
+	console.log("Trying to get an average valence.....")
+	return axios
+		({
+			method:'GET',
+			url:'http://localhost:8001/getRecommendedValence',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+			}
+		
+		})
+      .then((response)=>
+	  {
+	  	
+        if(response.status == 200)
+        {
+        	var recommendedValence = response.data.data;
+        	this.getRecommendedTrackList(recommendedValence)
+        }
+        else{
+        	
+          return([])
+        }
+      }).catch(err => {
+	        console.log("Couldn't get RECO.VALENCE ", err)
+	       
+	        return([])
+      })
+}
+
+
+   // Sets history, if song_id & valence provided
+   setHistory(song_id, valence){
+   	axios
+		({
+			method:'post',
+			url:'http://localhost:3001/setHistoryAndMood',
+			data:{
+					songId: song_id,
+					valence: valence
+				 },
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+			}
+		
+		})
+      .then((response)=>
+	  {
+	  	
+        if(response.status === 200)
+        {
+        	console.log("Successfully set valence and history")
+        }
+        else{
+			console.log("SET HISTORY MESSED UP!!!",response)
+          	return([])
+        }
+      }).catch(err => {
+        console.log("SET HISTORY MESSED UP!!!", err)
+        return([])
+      })
+   }
+
    
-   
+   // Hits API Broker with a song ID to get its valence
+   getValenceFromAPIBroker(song_id){
+   	console.log("Getting valence for song id: ", song_id);
+
+   		axios
+		({
+			method:'post',
+			url:'http://localhost:3002/getValence',
+			data:{
+					songId:song_id,
+					access_token:sessionStorage.getItem('spotifyToken')
+				 },
+			headers: {
+				'Access-Control-Allow-Headers': '*',
+				'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+			}
+		
+		})
+      .then((response)=>
+		  {
+		  	console.log("INSIDE GET VALENCE:: ",response.data.data["valence"])
+	        if(response.status === 200)
+	        {
+	        	var valence = response.data.data["valence"]
+	        	this.setHistory(song_id, valence);
+	        }
+	        else{
+	          return([])
+	        }
+	      }).catch(err => {
+	       	 	console.log("Valence Fetch FAILED!!! ", err)
+	        	return([])
+	      })
+   }
+
+
    // This plays the song of the card clicked
    playSong(song_id, event)
    {
-	   this.setState({currentSong:"https://open.spotify.com/embed/track/"+song_id})
-
+	   this.setState({currentSong:"https://open.spotify.com/embed/track/"+song_id}, this.getValenceFromAPIBroker(song_id))
+	   alert("Song has been loaded to the player! Please click play below!!")
    }
+   
    
    //----------------function to search for songs----------------------//
    searchSongs()
@@ -100,7 +252,7 @@ class Homepage extends Component
       .then((response)=>
 	  {
 	  	
-        if(response.status == 200)
+        if(response.status === 200)
         {
         	console.log(response.data.data.tracks.items)
 			this.setState({searchResults: response.data.data.tracks.items})
@@ -133,27 +285,69 @@ class Homepage extends Component
 render()
 {
 	let resultsDiv;
+	let recommendDiv;
 
 	if(this.state.isSearchResultsVisible){
 		resultsDiv = <div name="searchResults">
+				<div className="RecommendedSongsView">
+					<div className="RecommendationTitle ">
+						<h4>Here are some songs!</h4>
+					</div>
+				</div>
 				{
                 this.state.searchResults.map((el,i) => (
-                	<Card onClick = {this.playSong.bind(this, el.id)} key={i} style={this.state.courseCardStyle}>
-                  <CardContent>
-                    
-                        {el.name} 
-                        <br /> <br />
-               			{el.artists[0]["name"]}
-
-                     <br /> <br />
-                  </CardContent>
+                	<Card onClick = {this.playSong.bind(this, el.id)} key={i} style={this.state.songCardStyle}>
+                  <CardMedia image = {el.album.images[0].url} style= {{height: "inherit", cursor: "pointer",
+                        background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
+                    	
+                    	<div name="songDetails" style={{height:'inherit'}}>
+		                    <div name="titleSong" 
+		                      style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+	                        	{el.name} 
+	                        </div>
+               			</div>
+                     
+                  </CardMedia>
                 </Card>))
               }
 		</div>
 	}
 	else{
-		resultsDiv = <div> </div>
+		resultsDiv = <div></div>
 	}
+
+
+	if(this.state.isRecommendationsVisible){
+		recommendDiv = <div name = "recoResults"> 
+			<div className="RecommendedSongsView">
+					<div className="RecommendationTitle ">
+						<h4>We think you'll like these</h4>
+					</div>
+			</div>
+			{
+                this.state.arrayOfRecommended.map((el,i) => (
+                	<Card onClick = {this.playSong.bind(this, el.id)} key={i} style={this.state.songCardStyle}>
+                  <CardMedia image = {el.album.images[0].url} style= {{height: "inherit", cursor: "pointer",
+                        background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
+                    	
+                    	<div name="songDetailsRec" style={{height:'inherit'}}>
+		                    <div name="titleSongRec" 
+		                      style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+	                        	{el.name} 
+	                        </div>
+               			</div>
+                     
+                  </CardMedia>
+                </Card>))
+            }
+
+		</div>
+	}
+	else{
+		recommendDiv = <div> </div>
+	}
+
+
 return(
 <div>
 	//-------------------MoodBox----------------------//
@@ -162,7 +356,7 @@ return(
 	</div><br /><br />
 	<div className="wrapper">
 	<div className="gauge green">
-    <p className="gauge__values" onclick={this.changeMood}>
+    <p className="gauge__values" onClick={this.changeMood}>
       I am feeling 
       <span className="gauge_rating">Good</span>
     </p>
@@ -179,20 +373,17 @@ return(
 		</a>
 	</div>
 	
-	{resultsDiv}
+	
+		{resultsDiv}
+	
 
 	//-------------------Recommendations----------------------//
-	<div className="RecommendedSongsView">
-		<div className="RecommendationTitle ">
-			<h4>Recommended For You</h4>
-		</div>
-		<div className="RecommendationTiles">
-		</div>
-	</div>
 	
+		{recommendDiv}
+
 	//-------------------Spotify Player----------------------//
 	<div className="player">
-		<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+		<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 	</div>
 	
 </div>
