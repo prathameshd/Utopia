@@ -3,10 +3,7 @@ import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-var query="carnival";
 
-//	<link rel="stylesheet" type="text/css" href="home.css">
-//	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 class Homepage extends Component
 {
 	  
