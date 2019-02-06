@@ -12,7 +12,7 @@ class Landing extends Component{
                             <h2 className="display-3 mb-4" >Utopia
                             </h2>
                             <p className="lead"> Match music to your mood!</p>
-                            <hr />
+                           
                             <Link to="/register" className="btn btn-lg btn-info mr-2">Sign Up</Link>
                             <Link to="/login" className="btn btn-lg btn-light">Login</Link>
                           </div>
