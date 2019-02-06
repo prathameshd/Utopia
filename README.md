@@ -121,7 +121,7 @@ go build
 Linux/Mac:
 	./RecommendationEngine
 Windows:
-	RecommendationEngine
+	./RecommendationEngine.exe
 ```
 ~~~
 The Recommendation Engine will run in port 8001
