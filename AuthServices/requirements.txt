@@ -4,3 +4,4 @@ jsonpickle
 dnspython
 pymongo
 flask-cors
+passlib
