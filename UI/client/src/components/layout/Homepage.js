@@ -9,8 +9,10 @@ var query="carnival";
 //	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 class Homepage extends Component
 {
+	  
 	constructor()
 	{
+		
 		super();
 		this.state={accessToken:"",
 					currentSong:"https://open.spotify.com/embed/track/4bHsxqR3GMrXTxEPLuK5ue",
@@ -360,7 +362,7 @@ return(
       I am feeling 
       <span className="gauge_rating">Good</span>
     </p>
-    <svg xmlns="http://www.w3.org/2000/svg" width="241" height="241" viewBox="0 0 241 241"><circle cx="120.5" cy="120.5" r="120.5" class="outer_ring"/><path d="M167.9 18.4C153.5 11.7 137.4 8 120.5 8c-19.7 0-38.3 5.1-54.4 14l15.3 24.7c11.7-6.2 25-9.7 39.1-9.7 11.3 0 22.1 2.3 32 6.3l15.4-24.9z" class="ring_orange"/><path d="M152.5 43.3c23.9 9.9 42.2 30.6 48.8 56l27.3-10.2C219.4 57.7 197 32 167.9 18.4l-15.4 24.9z" class="ring_purple"/><path d="M38.1 106.9c4.2-25.9 21-48.1 43.3-60.2L66.1 22C37.7 37.7 16.8 65.4 10.2 98.2l27.9 8.7z" class="ring_yellow"/><path d="M54.4 171.6C43.5 157.5 37 139.7 37 120.5c0-4.7.4-9.2 1.1-13.7l-27.8-9C8.8 105.2 8 112.7 8 120.5c0 27.2 9.6 52.1 25.7 71.6l20.7-20.5z" class="ring_green"/><path d="M207 192.4c16.2-19.5 26-44.6 26-71.9 0-10.9-1.6-21.5-4.5-31.4l-27.3 10.2c1.8 6.8 2.7 13.9 2.7 21.2 0 19.7-6.8 37.8-18.3 52.1l21.4 19.8z" class="ring_red"/><g class="type"></g><path d="M102.3 190.1c-31.4-8.1-54.6-36.6-54.6-70.5 0-40.2 32.6-72.8 72.8-72.8s72.8 32.6 72.8 72.8c0 33.9-23.2 62.5-54.6 70.5l-18.3 17.7-18.1-17.7z" class="spinner" transform='rotate(75 120 120)' /></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="241" height="241" viewBox="0 0 241 241"><circle cx="120.5" cy="120.5" r="120.5" className="outer_ring"/><path d="M167.9 18.4C153.5 11.7 137.4 8 120.5 8c-19.7 0-38.3 5.1-54.4 14l15.3 24.7c11.7-6.2 25-9.7 39.1-9.7 11.3 0 22.1 2.3 32 6.3l15.4-24.9z" class="ring_orange"/><path d="M152.5 43.3c23.9 9.9 42.2 30.6 48.8 56l27.3-10.2C219.4 57.7 197 32 167.9 18.4l-15.4 24.9z" class="ring_purple"/><path d="M38.1 106.9c4.2-25.9 21-48.1 43.3-60.2L66.1 22C37.7 37.7 16.8 65.4 10.2 98.2l27.9 8.7z" class="ring_yellow"/><path d="M54.4 171.6C43.5 157.5 37 139.7 37 120.5c0-4.7.4-9.2 1.1-13.7l-27.8-9C8.8 105.2 8 112.7 8 120.5c0 27.2 9.6 52.1 25.7 71.6l20.7-20.5z" class="ring_green"/><path d="M207 192.4c16.2-19.5 26-44.6 26-71.9 0-10.9-1.6-21.5-4.5-31.4l-27.3 10.2c1.8 6.8 2.7 13.9 2.7 21.2 0 19.7-6.8 37.8-18.3 52.1l21.4 19.8z" class="ring_red"/><g class="type"></g><path d="M102.3 190.1c-31.4-8.1-54.6-36.6-54.6-70.5 0-40.2 32.6-72.8 72.8-72.8s72.8 32.6 72.8 72.8c0 33.9-23.2 62.5-54.6 70.5l-18.3 17.7-18.1-17.7z" class="spinner" transform='rotate(75 120 120)' /></svg>
 	</div>
 	</div>
 	<br /><br />

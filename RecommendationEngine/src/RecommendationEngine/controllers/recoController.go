@@ -5,7 +5,7 @@ import (
 	 "net/http"
 	 "io/ioutil"
 	 "fmt"
-     "Utopia-Profile-Mgmt/utils"
+     "RecommendationEngine/utils"
 )
 
 // Struct for converting the JSON response to obj

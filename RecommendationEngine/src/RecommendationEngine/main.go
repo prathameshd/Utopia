@@ -5,7 +5,7 @@ import (
     "net/http"
     "fmt"
     "github.com/gorilla/mux"
-    "Utopia-Profile-Mgmt/controllers"
+    "RecommendationEngine/controllers"
 )
 
 func main() {

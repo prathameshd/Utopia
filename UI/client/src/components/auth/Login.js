@@ -3,6 +3,7 @@ import axios from 'axios';
 
 
 class Login extends Component {
+      
     constructor(){
         super();
         this.state = {
@@ -99,8 +100,8 @@ class Login extends Component {
                     <div className="container">
                       <div className="row">
                         <div className="col-md-8 m-auto">
-                          <h1 className="display-4 text-center">Log In</h1>
-                          <p className="lead text-center">Sign in to your Utopia account</p>
+                          <h1 className="display-4 text-center color-white">Log In</h1>
+                          <p className="lead text-center color-white">Sign in to your Utopia account</p>
                           <form onSubmit={this.onSubmit}>
                             <div className="form-group">
                               <input type="email" className="form-control form-control-lg" placeholder="Email Address" name="email" value={this.state.email} onChange={this.onChange} />
