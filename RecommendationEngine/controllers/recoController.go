@@ -30,8 +30,12 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 	// Extracting token (removes "Bearer ")
 	token := incomingAuthHeader[7:]
 	
+	DOMAIN := "localhost"
+	PORT := "3001"
+	USER_MGMT_URL := "http://"+DOMAIN+":" + PORT
+
 	// Passing the JWT token along to the next micro-service...
-	request, _ := http.NewRequest("GET", "http://localhost:3001/getHistoryAndMood", nil)
+	request, _ := http.NewRequest("GET", USER_MGMT_URL+ "/getHistoryAndMood", nil)
 	request.Header.Set("Authorization", "Bearer "+ token)
 	client := &http.Client{}
 	response, err := client.Do(request)
