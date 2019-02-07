@@ -112,17 +112,22 @@ cd RecommendationEngine/src/RecommendationEngine/
 	
 ```
 
-### Install required libraries
+### Install required libraries and build
 ```
 NOTE: Please run the below commands ONLY from the directory containing main.go (.../src/RecommendationEngine)
       If you receive a "can't find packages named RecommendationEngine/controllers" error, it is most likely due to 
       the following reasons:
-      1) GOPATH has not been set properly. Please run echo $GOPATH to verify that it looks like the following:
+      
+      1) GOPATH has not been set properly. 
+      	 Please run echo $GOPATH to verify that it looks like the following:
+	 
       	 /<path to which you have cloned>/Team-Rocket/RecommendationEngine
+	 
 	 NOTE: GOPATH shouldn't contain src directory
 	 
       2) GOROOT has not been set properly. Please refer to https://golang.org/doc/install
 
+Run the following commands to install required libraries and build executable:
 
 go get github.com/gorilla/mux
 go build
