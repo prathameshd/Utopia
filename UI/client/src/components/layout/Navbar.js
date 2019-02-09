@@ -69,9 +69,10 @@ handleOpen()
     if(response.status === 200)
     {
       console.log("user history:",response.data.data)
-      var userHistoryTracks = response.data.data[0].history[0];
+      var userHistoryTracks = response.data.data[0].history;
       this.setState({arrayOfHistory: userHistoryTracks})
       this.setState({isHistoryVisible: true})
+      console.log(this.state.arrayOfHistory)
     }
     else
     {
@@ -206,7 +207,7 @@ handleOpen()
                  {this.state.userName}<br />
                 {this.state.userEmail}
                 <h4>HISTORY</h4>
-                {this.state.arrayOfHistory}
+                
 
                  
 

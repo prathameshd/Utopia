@@ -351,9 +351,9 @@ moodSearch(valence)
 		if(response.status === 200)
 		{
 			console.log("seaerch by mood success",response)
-			//var finalRecommendedTracks = response.data.data;
-			//this.setState({arrayOfRecommended: finalRecommendedTracks})
-			//this.setState({isRecommendationsVisible: true})
+			var searchRes = response.data.data;
+			this.setState({searchResults: searchRes})
+			this.setState({isSearchResultsVisible: true})
 		}
 		else{
 
@@ -361,7 +361,7 @@ moodSearch(valence)
 		}
 	}).catch(err => {
 
-		console.log("Couldn't get history for user :( ", err)
+		console.log("Couldn't get mood serach:( ", err)
 		// if(err.response.status==401){
 		// 	window.location.href = "/login";
 		// }
@@ -379,7 +379,7 @@ render()
 		resultsDiv = <div name="searchResults">
 		<div className="RecommendedSongsView">
 		<div className="RecommendationTitle ">
-		<h4>Here are some songs!</h4>
+		<h4>Here are some songs!</h4><br />
 		</div>
 		</div>
 		{
@@ -409,7 +409,7 @@ render()
 			recommendDiv = <div name = "recoResults">
 			<div className="RecommendedSongsView">
 			<div className="RecommendationTitle ">
-			<h4>We think you'll like these</h4>
+			<h4>We think you'll like these</h4><br />
 			</div>
 			</div>
 			{
@@ -463,7 +463,7 @@ render()
 				<br /><br />
 
 				
-				<div id="particles-js" className="search-box">
+				<div className="search-box">
 				<input className="search-txt" type="text" id="searchQuery" placeholder="Search" onKeyPress={this.handleEnterKey}/>
 				<a className="search-btn" href="#">
 				<i className="fa fa-search"></i>
