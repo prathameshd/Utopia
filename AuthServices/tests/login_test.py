@@ -10,7 +10,7 @@ class LoginTest(unittest.TestCase):
     # Test whether the login is working with positive scenario
     def test_login_with_proper_credentials(self):
         service= Service()
-        response = service.login({"email":"saai@gmail.com", "password":"123456"})
+        response = service.login({"email":"jhon1234@gmail.com", "password":"123456"})
         assert isinstance(response, object)
         assert response.token is not None
 
@@ -24,7 +24,7 @@ class LoginTest(unittest.TestCase):
     # Test whether returns a specific string if a user enters wrong password
     def test_login_with_wrong_password(self):
         service= Service()
-        response = service.login({"email":"saai@gmail.com", "password":"pass"})
+        response = service.login({"email":"jhon1234@gmail.com", "password":"pass"})
         assert isinstance(response, str)
         assert response == "Invalid Credentials"
 
