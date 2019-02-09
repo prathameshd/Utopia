@@ -146,13 +146,21 @@ getRecommendedValence(){
 
 		if(response.status == 200)
 		{
+			console.log("Reco valence response: ",response.data)
 			var recommendedValence = response.data.data;
-			this.getRecommendedTrackList(recommendedValence)
-		}
+			if(response.data.message != "No history")
+			{
+				this.getRecommendedTrackList(recommendedValence)
+			}
+			else{
+				ToastStore.info("You have not listened to any song yet :( ");
+				console.log("USER HAS NO HISTORY!!!")
+			}
+		}	
 		else{
-
-			return([])
-		}
+				return([])
+			}
+		
 	}).catch(err => {
 		console.log("Couldn't get RECO.VALENCE ", err)
 		if(err.response.status==401){
