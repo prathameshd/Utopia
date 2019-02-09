@@ -172,13 +172,13 @@ getRecommendedValence(){
 
 
 // Sets history, if song_id & valence provided
-setHistory(song_id, valence){
+setHistory(song, valence){
 	axios
 	({
 		method:'post',
 		url:config.profileServices+'/setHistoryAndMood',
 		data:{
-			songId: song_id,
+			songId: song,
 			valence: valence
 		},
 		headers: {
@@ -189,7 +189,7 @@ setHistory(song_id, valence){
 	})
 	.then((response)=>
 	{
-
+		console.log("setting history response: ", response.data)
 		if(response.status === 200)
 		{
 			console.log("Successfully set valence and history")
@@ -210,7 +210,7 @@ setHistory(song_id, valence){
 
 
 // Hits API Broker with a song ID to get its valence
-getValenceFromAPIBroker(song_id){
+getValenceFromAPIBroker(song_id, song){
 	console.log("Getting valence for song id: ", song_id);
 
 	axios
@@ -233,7 +233,7 @@ getValenceFromAPIBroker(song_id){
 		if(response.status === 200)
 		{
 			var valence = response.data.data["valence"]
-			this.setHistory(song_id, valence);
+			this.setHistory(song, valence);
 		}
 		else{
 			return([])
@@ -246,9 +246,11 @@ getValenceFromAPIBroker(song_id){
 
 
 // This plays the song of the card clicked
-playSong(song_id, event)
+playSong(song, event)
 {
-	this.setState({currentSong:"https://open.spotify.com/embed/track/"+song_id}, this.getValenceFromAPIBroker(song_id))
+	console.log("Entire song obj", song)
+	var song_id = song.id
+	this.setState({currentSong:"https://open.spotify.com/embed/track/"+song_id}, this.getValenceFromAPIBroker(song_id, song))
 	ToastStore.success("Song has been loaded to the player! Please click play below!!");
 }
 
@@ -321,7 +323,7 @@ render()
 		</div>
 		{
 			this.state.searchResults.map((el,i) => (
-				<Card onClick = {this.playSong.bind(this, el.id)} key={i} style={this.state.songCardStyle}>
+				<Card onClick = {this.playSong.bind(this, el)} key={i} style={this.state.songCardStyle}>
 				<CardMedia image = {el.album.images[0].url} style= {{height: "inherit", cursor: "pointer",
 				background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
 
@@ -351,7 +353,7 @@ render()
 			</div>
 			{
 				this.state.arrayOfRecommended.map((el,i) => (
-					<Card onClick = {this.playSong.bind(this, el.id)} key={i} style={this.state.songCardStyle}>
+					<Card onClick = {this.playSong.bind(this, el)} key={i} style={this.state.songCardStyle}>
 					<CardMedia image = {el.album.images[0].url} style= {{height: "inherit", cursor: "pointer",
 					background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
 
