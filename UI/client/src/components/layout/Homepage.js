@@ -73,7 +73,7 @@ componentDidMount()
 	}
 }).catch(err => {
 	console.log("No search results ", err)
-	if(err.response.status==401){
+	if(err.status==401){
 		window.location.href = "/login";
 	}
 	return([])
@@ -119,7 +119,7 @@ getRecommendedTrackList(valence){
 		// if(err.response.status==401){
 		// 	window.location.href = "/login";
 		// }
-		console.log(err.response)
+		console.log(err)
 		return([])
 	})
 }
@@ -155,7 +155,7 @@ getRecommendedValence(){
 		}
 	}).catch(err => {
 		console.log("Couldn't get RECO.VALENCE ", err)
-		if(err.response.status==401){
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -193,7 +193,7 @@ setHistory(song_id, valence){
 		}
 	}).catch(err => {
 		console.log("SET HISTORY MESSED UP!!!", err)
-		if(err.response.status==401){
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -278,7 +278,7 @@ searchSongs()
 		}
 	}).catch(err => {
 		console.log("No search results ", err)
-		if(err.response.status==401){
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -367,7 +367,7 @@ render()
 
 			return(
 				<div>
-				//-------------------MoodBox----------------------//
+				
 				<div className="MoodBox">
 				<h2>How are you feeling today? </h2>
 				</div><br /><br />
@@ -382,7 +382,7 @@ render()
 				</div>
 				<br /><br />
 
-				//-------------------Searchbox----------------------//
+				
 				<div id="particles-js" className="search-box">
 				<input className="search-txt" type="text" id="searchQuery" placeholder="Search" onKeyPress={this.handleEnterKey}/>
 				<a className="search-btn" href="#">
@@ -394,11 +394,10 @@ render()
 				{resultsDiv}
 
 
-				//-------------------Recommendations----------------------//
-
+				
 				{recommendDiv}
 
-				//-------------------Spotify Player----------------------//
+				
 				<div className="player">
 				<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>
