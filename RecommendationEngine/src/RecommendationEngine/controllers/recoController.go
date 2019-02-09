@@ -69,10 +69,10 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 		
 		json.Unmarshal([]byte(data), &userHist) //now we can use userHist like a normal JSON object
 		
-		// If no history, returns 400 FAILURE
+		// If no history, returns 200 Success
 		if(len(userHist.Data) == 0){
-			no_history_data := map[string]string{"message":"error", "data":"User has no history"}
-			utils.Respond(w, no_history_data, "FAIL")
+			no_history_data := map[string]string{"message":"No history", "data":"User has no history"}
+			utils.Respond(w, no_history_data, "OK")
 			return
 		}
 		
