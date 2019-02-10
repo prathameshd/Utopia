@@ -195,30 +195,31 @@ handleOpen()
                     height:'80%',
                     width: '80%',
                     scroll:'auto',
+                    borderRadius: '5px',
                     
                   }} className={classes.paper}>
 
                 <Typography variant="h6" id="modal-title">
-                <h4>User Profile</h4>
-                <h6> {this.state.userName}</h6>
-                <h6> {this.state.userEmail}</h6><br />
+                <h4 style={{background: '#303952', width: "100%", padding: "10px", color: '#fff'}}>User Profile</h4>
+                {this.state.userName} <br />
+                {this.state.userEmail}<br />
                 </Typography>
 
                 <Typography variant="subtitle1" id="simple-modal-description">
                 
-                <h4>History</h4>
+                <h4 style={{background: '#574b90', width: "100%", padding: "10px", color: '#fff'}}>History</h4>
                 
 
                  
                   {
                   this.state.arrayOfHistory.map((el,i) => (
-                    <Card key={i} style={{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'}}>
-                    <CardMedia image = {el.album.images[0].url} style= {{width: 150, height: "inherit", cursor: "pointer",
+                    <Card key={i} style={{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingTop: '10px', fontColor: 'black'}}>
+                    <CardMedia image = {el.album.images[0].url} style= {{width: 150, height: "inherit", cursor: "pointer", opacity: '0.75',
                     background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
 
                     <div name="songDetailsRec" style={{height:'inherit'}}>
                     <div name="titleSongRec"
-                    style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+                    style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', fontWeight: "bold", fontSize: 25}}>
                     {el.name}
                     </div>
                     </div>

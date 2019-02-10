@@ -487,9 +487,9 @@ render()
 				</div>
 			
 		
-				<div class="row">
+				<div className="row">
 				<div className="col-sm-3"></div>
-				<div className="col-sm-6" style={{paddingBottom:"4%"}}><input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search For a Song" style={{borderRadius:15,textAlign:"left"}} id="searchQuery" aria-label="Search" onKeyPress={this.handleEnterKey} />
+				<div className="col-sm-6" style={{paddingBottom:"4%"}}><input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search for your song" style={{borderRadius:15, height:'40px'}} id="searchQuery" aria-label="Search" onKeyPress={this.handleEnterKey} />
 				</div></div>
 				
 				<div style={{paddingBottom:'2%'}}>
@@ -501,7 +501,7 @@ render()
 				</div>
 				
 				<div className="player ">
-				<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+				<iframe src={this.state.currentSong} width="100%" height="80px" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>
 				<ToastContainer position={ToastContainer.POSITION.BOTTOM_RIGHT} store={ToastStore}/>
 				</div>
