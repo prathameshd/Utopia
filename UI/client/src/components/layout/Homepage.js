@@ -22,26 +22,31 @@ class Homepage extends Component
 		moodArray: [
 		{
 			moodName:"Good",
-			moodValence:0.85
+			moodValence:0.85,
+			url: 'https://images.unsplash.com/photo-1542145748-bd00b11de29d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80'
 		},
 		{
 			moodName:"Okay",
-			moodValence:0.65
+			moodValence:0.65,
+			url: 'https://images.unsplash.com/photo-1519698861797-b7505f779d94?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
 		},
 		{
 			moodName:"Meh",
-			moodValence:0.50
+			moodValence:0.50,
+			url: 'https://images.unsplash.com/photo-1543341777-393f23c0dadd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80'
 		},
 		{
 			moodName:"Yikes",
-			moodValence:0.35
+			moodValence:0.35,
+			url: 'https://images.unsplash.com/photo-1499012276815-a80b5512deae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
 		},
 		{
 			moodName:"Sad",
-			moodValence:0.15
+			moodValence:0.05,
+			url: 'https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80'
 		}
 		],
-		moodBoxStyle:{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingRight:200,textAlign: 'center',color:'black'},
+		moodBoxStyle:{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingRight:200,textAlign: 'center',color:'black', borderRadius: 20},
 	};
 	this.searchSongs=this.searchSongs.bind(this)
 	this.playSong=this.playSong.bind(this)
@@ -186,7 +191,7 @@ getRecommendedValence(){
 			}
 		
 	}).catch(err => {
-		console.log("Couldn't get RECO.VALENCE ", err)
+		console.log("CO.VALENCE ", err)
 		if(err.status==401){
 			window.location.href = "/login";
 		}
@@ -328,6 +333,8 @@ handleEnterKey(event)
 	}
 }
 
+
+//----------- Seach songs by mood ---------------//
 moodSearch(valence)
 {
 	console.log("moodSearch called",valence)
@@ -443,16 +450,16 @@ render()
 				<h3 style={{color:"white"}}>How are you feeling today?</h3><br />
 				{
 					this.state.moodArray.map((el2,i2) => (
-						<Card onClick={this.moodSearch.bind(this,el2.moodValence)} key={i2} style={this.state.moodBoxStyle}>
-						<CardMedia style= {{height: "inherit", cursor: "pointer",
-						background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
 
-						<div name="" style={{height:'inherit'}}>
-						<div name=""
-						style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"black", fontWeight: "bold", fontSize: 25}}>
-						{el2.moodName}
-						</div>
-						</div>
+						<Card onClick={this.moodSearch.bind(this,el2.moodValence)} key={i2} style={this.state.moodBoxStyle}>
+						<CardMedia image = {el2.url} style= {{height: "inherit", width:"inherit", paddingRight:200, cursor: "pointer"}}>
+
+							<div style={{height:'inherit'}}>
+							<div 
+							style= {{lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+								{el2.moodName}
+							</div>
+							</div>
 
 						</CardMedia>
 						</Card>))

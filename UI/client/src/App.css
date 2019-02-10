@@ -9,6 +9,10 @@ body{
 	width: 100%;
 }
 
+input {
+  width: 50%;
+}
+
 
 .landing {
   position: relative;
