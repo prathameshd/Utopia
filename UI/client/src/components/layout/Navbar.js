@@ -56,7 +56,7 @@ handleOpen()
   axios
   ({
     method:'get',
-      url:'http://localhost:3001/getHistoryAndMood',
+      url:config.profileServices+'/getHistoryAndMood',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -65,14 +65,13 @@ handleOpen()
   })
   .then((response)=>
   {
-
+      console.log("History fetched!!", response.data)
     if(response.status === 200)
     {
-      console.log("user history:",response.data.data)
       var userHistoryTracks = response.data.data[0].history;
       this.setState({arrayOfHistory: userHistoryTracks})
       this.setState({isHistoryVisible: true})
-      console.log(this.state.arrayOfHistory)
+      console.log("arraaay:",this.state.arrayOfHistory)
     }
     else
     {
@@ -91,7 +90,7 @@ handleOpen()
     axios
   ({
     method:'get',
-      url:'http://localhost:3001/getPersonalDetails',
+      url: config.profileServices+'/getPersonalDetails',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -107,8 +106,8 @@ handleOpen()
       this.setState({
         userEmail:response.data.data[0].email,
         userName:response.data.data[0].firstName
-
-      })
+         })
+      console.log(this.state.userName);
     }
     else
     {
@@ -200,17 +199,33 @@ handleOpen()
                   }} className={classes.paper}>
 
                 <Typography variant="h6" id="modal-title">
-                User Profile
+                <h4>User Profile</h4>
+                <h6> {this.state.userName}</h6>
+                <h6> {this.state.userEmail}</h6><br />
                 </Typography>
 
                 <Typography variant="subtitle1" id="simple-modal-description">
-                 {this.state.userName}<br />
-                {this.state.userEmail}
-                <h4>HISTORY</h4>
+                
+                <h4>History</h4>
                 
 
                  
+                  {
+                  this.state.arrayOfHistory.map((el,i) => (
+                    <Card key={i} style={{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'}}>
+                    <CardMedia image = {el.album.images[0].url} style= {{width: 150, height: "inherit", cursor: "pointer",
+                    background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
 
+                    <div name="songDetailsRec" style={{height:'inherit'}}>
+                    <div name="titleSongRec"
+                    style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+                    {el.name}
+                    </div>
+                    </div>
+
+                    </CardMedia>
+                    </Card>))
+                  }
 
 
 

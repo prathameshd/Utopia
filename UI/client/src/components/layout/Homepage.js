@@ -476,7 +476,7 @@ render()
 
 							<div style={{height:'inherit'}}>
 							<div 
-							style= {{lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+							style= {{lineHeight: "140px", paddingLeft: '69px', height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
 								{el2.moodName}
 							</div>
 							</div>

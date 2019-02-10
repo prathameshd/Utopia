@@ -14,7 +14,7 @@ class Landing extends Component{
                             <p className="lead"> Match music to your mood!</p>
                            
                             <Link to="/register" className="btn btn-lg btn-info mr-2">Sign Up</Link>
-                            <Link to="/login" className="btn btn-lg btn-light">Login</Link>
+                            
                           </div>
                         </div>
                       </div>
