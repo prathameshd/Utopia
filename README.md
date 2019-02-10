@@ -96,18 +96,18 @@ The Profile Service will run in port 3001
 This micro-service provides services to recommend songs to user.
 ### Open a new terminal and navigate to RecommendationEngine
 ```
-cd RecommendationEngine/src/RecommendationEngine/
+cd RecoEngineWorkspace/src/RecommendationEngine/
 ```
 ### Pre-requisites
 ```
 1) Install Go and set GOPATH
 	Refer: https://golang.org/doc/install
-2) Set this RecommendationEngine path to GOPATH
+2) Set RecoEngineWorkspace to GOPATH
 	Linux or Mac:
-		export GOPATH=$GOPATH:~/<path to which you have cloned>/Team-Rocket/RecommendationEngine
+		export GOPATH=$GOPATH:~/<path to which you have cloned>/Team-Rocket/RecoEngineWorkspace
 	Windows:
 		Create and set the GOPATH in environment variables. The path should be like
-		/<path to cloned repository>/Team-Rocket/RecomendationEngine
+		/<path to cloned repository>/Team-Rocket/RecoEngineWorkspace
 		Refer: https://github.com/golang/go/wiki/SettingGOPATH
 	
 ```
@@ -121,7 +121,7 @@ NOTE: Please run the below commands ONLY from the directory containing main.go (
       1) GOPATH has not been set properly. 
       	 Please run echo $GOPATH to verify that it looks like the following:
 	 
-      	 /<path to which you have cloned>/Team-Rocket/RecommendationEngine
+      	 /<path to which you have cloned>/Team-Rocket/RecoEngineWorkspace
 	 
 	 NOTE: GOPATH shouldn't contain src directory
 	 
