@@ -195,14 +195,15 @@ handleOpen()
                     height:'80%',
                     width: '80%',
                     scroll:'auto',
-                    borderRadius: '5px',
-                    
+                    borderRadius: '5px'
+                                    
                   }} className={classes.paper}>
 
                 <Typography variant="h6" id="modal-title">
                 <h4 style={{background: '#303952', width: "100%", padding: "10px", color: '#fff'}}>User Profile</h4>
                 {this.state.userName} <br />
-                {this.state.userEmail}<br />
+                {this.state.userEmail}<br />                
+
                 </Typography>
 
                 <Typography variant="subtitle1" id="simple-modal-description">
