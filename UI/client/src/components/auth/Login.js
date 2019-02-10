@@ -59,10 +59,13 @@ class Login extends Component {
         sessionStorage.setItem("jwt", response.data.token);
         sessionStorage.setItem("name", response.data.first_name);
         this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
+        ToastStore.success("Logging In to Utopia");
+
       }
     }).catch(err =>
       {
         console.log("Error logging in...!", err)
+          ToastStore.error("Incorrect Credentials. Please Enter Valid Email and Password");
 
         return([])
       })

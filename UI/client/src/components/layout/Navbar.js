@@ -195,13 +195,21 @@ handleOpen()
                     height:'80%',
                     width: '80%',
                     scroll:'auto',
+                    overflowX:'scroll',
+                    overflowY:'none',
                     
                   }} className={classes.paper}>
 
                 <Typography variant="h6" id="modal-title">
+                <div>
+                <img src='https://www.flynz.co.nz/wp-content/uploads/profile-placeholder.png' style={{width:150,height:150}}></img>
                 <h4>User Profile</h4>
+                </div>
+                <div>
                 <h6> {this.state.userName}</h6>
                 <h6> {this.state.userEmail}</h6><br />
+                </div>
+
                 </Typography>
 
                 <Typography variant="subtitle1" id="simple-modal-description">
