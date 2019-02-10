@@ -47,6 +47,7 @@ class Homepage extends Component
 		}
 		],
 		moodBoxStyle:{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingRight:200,textAlign: 'center',color:'black', borderRadius: 20},
+		searchResultMessage:'',
 	};
 	this.searchSongs=this.searchSongs.bind(this)
 	this.playSong=this.playSong.bind(this)
@@ -307,15 +308,33 @@ searchSongs()
 
 		if(response.status === 200)
 		{
-			console.log(response.data.data.tracks.items)
-			this.setState({searchResults: response.data.data.tracks.items})
-			this.setState({isSearchResultsVisible: true})
+			var resultList = response.data.data.tracks.items
+			if( resultList.length > 0)
+			{
+				this.setState({searchResults: response.data.data.tracks.items})
+				this.setState({isSearchResultsVisible: true,
+					searchResultMessage:""
+				})
+				console.log("results found")
+				
+			}
+			else{
+				this.setState({isSearchResultsVisible: false,
+					searchResultMessage:"No results Found"
+				})
+
+			console.log(" NO REEEESULLTS")
+			}
 		}
 		else{
-
+			this.setState({isSearchResultsVisible: false})
+			console.log("SEARCH RESPONSE WAS NOT 200 NOR ERROR!", response)
 			return([])
 		}
 	}).catch(err => {
+
+		this.setState({isSearchResultsVisible: false})
+
 		console.log("No search results ", err)
 		if(err.status==401){
 			window.location.href = "/login";
@@ -408,8 +427,9 @@ render()
 			</div>
 		}
 		else{
-			resultsDiv = <div></div>
+			resultsDiv = <div><h4 style={{color:"red"}}>{this.state.searchResultMessage}</h4></div>
 		}
+
 
 
 		if(this.state.isRecommendationsVisible){
@@ -446,7 +466,7 @@ render()
 			return(
 				<div>
 				
-				<div className="moodBox">
+				<div className="moodBox" style={{paddingBottom:"4%"}}>
 				<h3 style={{color:"white"}}>How are you feeling today?</h3><br />
 				{
 					this.state.moodArray.map((el2,i2) => (
@@ -467,25 +487,20 @@ render()
 				</div>
 			
 		
-				<br /><br />
-
+				<div class="row">
+				<div className="col-sm-3"></div>
+				<div className="col-sm-6" style={{paddingBottom:"4%"}}><input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search For a Song" style={{borderRadius:15,textAlign:"left"}} id="searchQuery" aria-label="Search" onKeyPress={this.handleEnterKey} />
+				</div></div>
 				
-				<div className="search-box">
-				<input className="search-txt" type="text" id="searchQuery" placeholder="Search" onKeyPress={this.handleEnterKey}/>
-				<a className="search-btn" href="#">
-				<i className="fa fa-search"></i>
-				</a>
+				<div style={{paddingBottom:'2%'}}>
+					{resultsDiv}
 				</div>
 
-
-				{resultsDiv}
-
-
+				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
+					{recommendDiv}
+				</div>
 				
-				{recommendDiv}
-
-				
-				<div className="player">
+				<div className="player ">
 				<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>
 				<ToastContainer position={ToastContainer.POSITION.BOTTOM_RIGHT} store={ToastStore}/>

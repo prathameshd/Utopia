@@ -207,6 +207,7 @@ svg {
 }
 
 .search-txt{
+  width: 250px;
 	border: none;
 	background: none;
 	outline: none;
@@ -228,6 +229,7 @@ text-align:left;
 	top:50%;
 	position:relative;
 }
-.color-white{
-  color: 'white';
+.auth{
+  color: #fff;
 }
+
