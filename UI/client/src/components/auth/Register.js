@@ -58,12 +58,12 @@ class Register extends Component {
 
     render(){
       return(
-        <div className="register">
+        <div className="register" style={{paddingBottom:100}}>
         <div className="container">
         <div className="row">
         <div className="col-md-8 m-auto">
-        <h1 className="display-4 text-center color-white">Sign Up</h1>
-        <p className="lead text-center color-white" >Create your Utopia account</p>
+        <h1 className="display-4 text-center auth">Sign Up</h1>
+        <p className="lead text-center auth" >Create your Utopia account</p>
         <form onSubmit={this.onSubmit}>
         <div className="form-group">
         <input type="text" className="form-control form-control-lg" placeholder="Name" name="name" value={this.state.name} onChange={this.onChange} required />

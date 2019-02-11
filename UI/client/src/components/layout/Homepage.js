@@ -19,6 +19,35 @@ class Homepage extends Component
 		isSearchResultsVisible: false,
 		isRecommendationsVisible: false,
 		songCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
+		moodArray: [
+		{
+			moodName:"Good",
+			moodValence:0.85,
+			url: 'https://images.unsplash.com/photo-1542145748-bd00b11de29d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80'
+		},
+		{
+			moodName:"Okay",
+			moodValence:0.65,
+			url: 'https://images.unsplash.com/photo-1519698861797-b7505f779d94?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
+		},
+		{
+			moodName:"Meh",
+			moodValence:0.50,
+			url: 'https://images.unsplash.com/photo-1543341777-393f23c0dadd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80'
+		},
+		{
+			moodName:"Yikes",
+			moodValence:0.35,
+			url: 'https://images.unsplash.com/photo-1499012276815-a80b5512deae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
+		},
+		{
+			moodName:"Sad",
+			moodValence:0.05,
+			url: 'https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80'
+		}
+		],
+		moodBoxStyle:{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingRight:200,textAlign: 'center',color:'black', borderRadius: 20},
+		searchResultMessage:'',
 	};
 	this.searchSongs=this.searchSongs.bind(this)
 	this.playSong=this.playSong.bind(this)
@@ -26,6 +55,7 @@ class Homepage extends Component
 	this.getValenceFromAPIBroker = this.getValenceFromAPIBroker.bind(this)
 	this.setHistory = this.setHistory.bind(this)
 	this.getRecommendedValence = this.getRecommendedValence.bind(this)
+	this.moodSearch=this.moodSearch.bind(this)
 
 }
 componentWillMount(){
@@ -73,7 +103,7 @@ componentDidMount()
 	}
 }).catch(err => {
 	console.log("No search results ", err)
-	if(err.response.status==401){
+	if(err.status==401){
 		window.location.href = "/login";
 	}
 	return([])
@@ -119,7 +149,7 @@ getRecommendedTrackList(valence){
 		// if(err.response.status==401){
 		// 	window.location.href = "/login";
 		// }
-		console.log(err.response)
+		console.log(err)
 		return([])
 	})
 }
@@ -162,8 +192,8 @@ getRecommendedValence(){
 			}
 		
 	}).catch(err => {
-		console.log("Couldn't get RECO.VALENCE ", err)
-		if(err.response.status==401){
+		console.log("CO.VALENCE ", err)
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -201,7 +231,7 @@ setHistory(song, valence){
 		}
 	}).catch(err => {
 		console.log("SET HISTORY MESSED UP!!!", err)
-		if(err.response.status==401){
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -278,17 +308,35 @@ searchSongs()
 
 		if(response.status === 200)
 		{
-			console.log(response.data.data.tracks.items)
-			this.setState({searchResults: response.data.data.tracks.items})
-			this.setState({isSearchResultsVisible: true})
+			var resultList = response.data.data.tracks.items
+			if( resultList.length > 0)
+			{
+				this.setState({searchResults: response.data.data.tracks.items})
+				this.setState({isSearchResultsVisible: true,
+					searchResultMessage:""
+				})
+				console.log("results found")
+				
+			}
+			else{
+				this.setState({isSearchResultsVisible: false,
+					searchResultMessage:"No results Found"
+				})
+
+			console.log(" NO REEEESULLTS")
+			}
 		}
 		else{
-
+			this.setState({isSearchResultsVisible: false})
+			console.log("SEARCH RESPONSE WAS NOT 200 NOR ERROR!", response)
 			return([])
 		}
 	}).catch(err => {
+
+		this.setState({isSearchResultsVisible: false})
+
 		console.log("No search results ", err)
-		if(err.response.status==401){
+		if(err.status==401){
 			window.location.href = "/login";
 		}
 		return([])
@@ -304,9 +352,48 @@ handleEnterKey(event)
 	}
 }
 
-changeMood()
-{
 
+//----------- Seach songs by mood ---------------//
+moodSearch(valence)
+{
+	console.log("moodSearch called",valence)
+	return axios
+	({
+		method:'post',
+		url:config.apiBrokerHost+'/getRecommendedTracks',
+		data:{
+			access_token:sessionStorage.getItem('spotifyToken'),
+			valence: valence
+		},
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+		}
+
+	})
+	.then((response)=>
+	{
+		console.log("RECOMMENDED TRACKS ARE: ",response.data)
+		if(response.status === 200)
+		{
+			console.log("seaerch by mood success",response)
+			var searchRes = response.data.data;
+			this.setState({searchResults: searchRes})
+			this.setState({isSearchResultsVisible: true})
+		}
+		else{
+
+			return([])
+		}
+	}).catch(err => {
+
+		console.log("Couldn't get mood serach:( ", err)
+		// if(err.response.status==401){
+		// 	window.location.href = "/login";
+		// }
+		console.log(err)
+		return([])
+	})
 }
 
 render()
@@ -318,7 +405,7 @@ render()
 		resultsDiv = <div name="searchResults">
 		<div className="RecommendedSongsView">
 		<div className="RecommendationTitle ">
-		<h4>Here are some songs!</h4>
+		<h4>Here are some songs!</h4><br />
 		</div>
 		</div>
 		{
@@ -340,15 +427,16 @@ render()
 			</div>
 		}
 		else{
-			resultsDiv = <div></div>
+			resultsDiv = <div><h4 style={{color:"red"}}>{this.state.searchResultMessage}</h4></div>
 		}
+
 
 
 		if(this.state.isRecommendationsVisible){
 			recommendDiv = <div name = "recoResults">
 			<div className="RecommendedSongsView">
 			<div className="RecommendationTitle ">
-			<h4>We think you'll like these</h4>
+			<h4>We think you'll like these</h4><br />
 			</div>
 			</div>
 			{
@@ -377,40 +465,43 @@ render()
 
 			return(
 				<div>
-				//-------------------MoodBox----------------------//
-				<div className="MoodBox">
-				<h2>How are you feeling today? </h2>
-				</div><br /><br />
-				<div className="wrapper">
-				<div className="gauge green">
-				<p className="gauge__values" onClick={this.changeMood}>
-				I am feeling
-				<span className="gauge_rating">Good</span>
-				</p>
-				<svg xmlns="http://www.w3.org/2000/svg" width="241" height="241" viewBox="0 0 241 241"><circle cx="120.5" cy="120.5" r="120.5" className="outer_ring"/><path d="M167.9 18.4C153.5 11.7 137.4 8 120.5 8c-19.7 0-38.3 5.1-54.4 14l15.3 24.7c11.7-6.2 25-9.7 39.1-9.7 11.3 0 22.1 2.3 32 6.3l15.4-24.9z" class="ring_orange"/><path d="M152.5 43.3c23.9 9.9 42.2 30.6 48.8 56l27.3-10.2C219.4 57.7 197 32 167.9 18.4l-15.4 24.9z" class="ring_purple"/><path d="M38.1 106.9c4.2-25.9 21-48.1 43.3-60.2L66.1 22C37.7 37.7 16.8 65.4 10.2 98.2l27.9 8.7z" class="ring_yellow"/><path d="M54.4 171.6C43.5 157.5 37 139.7 37 120.5c0-4.7.4-9.2 1.1-13.7l-27.8-9C8.8 105.2 8 112.7 8 120.5c0 27.2 9.6 52.1 25.7 71.6l20.7-20.5z" class="ring_green"/><path d="M207 192.4c16.2-19.5 26-44.6 26-71.9 0-10.9-1.6-21.5-4.5-31.4l-27.3 10.2c1.8 6.8 2.7 13.9 2.7 21.2 0 19.7-6.8 37.8-18.3 52.1l21.4 19.8z" class="ring_red"/><g class="type"></g><path d="M102.3 190.1c-31.4-8.1-54.6-36.6-54.6-70.5 0-40.2 32.6-72.8 72.8-72.8s72.8 32.6 72.8 72.8c0 33.9-23.2 62.5-54.6 70.5l-18.3 17.7-18.1-17.7z" class="spinner" transform='rotate(75 120 120)' /></svg>
+				
+				<div className="moodBox" style={{paddingBottom:"4%"}}>
+				<h3 style={{color:"white"}}>How are you feeling today?</h3><br />
+				{
+					this.state.moodArray.map((el2,i2) => (
+
+						<Card onClick={this.moodSearch.bind(this,el2.moodValence)} key={i2} style={this.state.moodBoxStyle}>
+						<CardMedia image = {el2.url} style= {{height: "inherit", width:"inherit", paddingRight:200, cursor: "pointer"}}>
+
+							<div style={{height:'inherit'}}>
+							<div 
+							style= {{lineHeight: "140px", paddingLeft: '69px', height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+								{el2.moodName}
+							</div>
+							</div>
+
+						</CardMedia>
+						</Card>))
+				}
 				</div>
+			
+		
+				<div className="row">
+				<div className="col-sm-3"></div>
+				<div className="col-sm-6" style={{paddingBottom:"4%"}}><input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search for your song" style={{borderRadius:15, height:'40px'}} id="searchQuery" aria-label="Search" onKeyPress={this.handleEnterKey} />
+				</div></div>
+				
+				<div style={{paddingBottom:'2%'}}>
+					{resultsDiv}
 				</div>
-				<br /><br />
 
-				//-------------------Searchbox----------------------//
-				<div id="particles-js" className="search-box">
-				<input className="search-txt" type="text" id="searchQuery" placeholder="Search" onKeyPress={this.handleEnterKey}/>
-				<a className="search-btn" href="#">
-				<i className="fa fa-search"></i>
-				</a>
+				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
+					{recommendDiv}
 				</div>
-
-
-				{resultsDiv}
-
-
-				//-------------------Recommendations----------------------//
-
-				{recommendDiv}
-
-				//-------------------Spotify Player----------------------//
-				<div className="player">
-				<iframe src={this.state.currentSong} width="100%" height="20%" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+				
+				<div className="player ">
+				<iframe src={this.state.currentSong} width="100%" height="80px" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>
 				<ToastContainer position={ToastContainer.POSITION.BOTTOM_RIGHT} store={ToastStore}/>
 				</div>

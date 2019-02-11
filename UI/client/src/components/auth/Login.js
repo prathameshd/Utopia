@@ -59,10 +59,13 @@ class Login extends Component {
         sessionStorage.setItem("jwt", response.data.token);
         sessionStorage.setItem("name", response.data.first_name);
         this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
+        ToastStore.success("Logging In to Utopia");
+
       }
     }).catch(err =>
       {
         console.log("Error logging in...!", err)
+          ToastStore.error("Incorrect Credentials. Please Enter Valid Email and Password");
 
         return([])
       })
@@ -99,12 +102,12 @@ class Login extends Component {
 
     render(){
       return(
-        <div className="login">
+        <div className="login" style={{paddingBottom:200}}>
         <div className="container">
         <div className="row">
         <div className="col-md-8 m-auto">
-        <h1 className="display-4 text-center color-white">Log In</h1>
-        <p className="lead text-center color-white">Sign in to your Utopia account</p>
+        <h1 className="display-4 text-center auth">Log In</h1>
+        <p className="lead text-center auth">Sign in to your Utopia account</p>
         <form onSubmit={this.onSubmit}>
         <div className="form-group">
         <input type="email" className="form-control form-control-lg" placeholder="Email Address" name="email" value={this.state.email} onChange={this.onChange} />
