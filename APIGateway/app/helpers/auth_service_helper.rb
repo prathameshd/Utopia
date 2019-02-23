@@ -7,8 +7,11 @@ module AuthServiceHelper
   # Login helper, used to call the /login present in AuthServices
   def login_helper(url, auth_params)
     begin
-      uri = URI(url+'/login')
-      http = Net::HTTP.new(uri.host, uri.port)
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
+      uri = URI('http://'+host+':'+port+'/login')
+      http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
         'Authorization' => request.headers[:Authorization]})
       req.body = {"email" => auth_params['email'], "password" => auth_params['password']}.to_json
@@ -21,8 +24,11 @@ module AuthServiceHelper
   # Registeration helper, used to call the /register present in AuthServices
   def register_helper(url, auth_params)
     begin
-      uri = URI(url+'/register')
-      http = Net::HTTP.new(uri.host, uri.port)
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
+      uri = URI('http://'+host+':'+port+'/register')
+      http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
         'Authorization' => request.headers[:Authorization]})
       req.body = {"email" => auth_params['email'], "password" => auth_params['password'], "confirmPassword"=>auth_params['confirmPassword'],
@@ -31,6 +37,14 @@ module AuthServiceHelper
     rescue => e
       raise e
     end
+  end
+
+  # Zookeeper handler to retrieve the auth services host and port
+  def zookeeper_helper(url)
+    z = Zookeeper.new("localhost:2181")
+    host_details= z.get(:path => url)
+    host_details=JSON.parse(host_details[:data])
+    host_details
   end
 
 end

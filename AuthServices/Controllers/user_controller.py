@@ -9,6 +9,7 @@ from Models.User import User
 #Importing Services
 from Services.jwt import Jwt
 from Services.service import Service
+from Services.zookeeper_handler import ZookeeperHandler
 
 #in order to access any images
 app = Flask(__name__, static_url_path='/static')
@@ -48,4 +49,8 @@ def check():
 
 #The application starts running from here
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 5000)
+	try:
+		ZookeeperHandler.registerAuthService(5000)
+	except Exception as e:
+		print(e)
+	app.run(host = '0.0.0.0', port = 5000)
