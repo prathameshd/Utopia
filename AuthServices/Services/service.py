@@ -15,7 +15,6 @@ from Models.User import User
 class Service:
 
 	def email_text(self, username):
-		print(username)
 		html = """
 		<html>
 		  <body>

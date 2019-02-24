@@ -43,7 +43,7 @@ module AuthServiceHelper
 
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("localhost:2181")
+    z = Zookeeper.new("149.165.170.7:2181")
     host_details= z.get(:path => url)
     host_details=JSON.parse(host_details[:data])
     host_details

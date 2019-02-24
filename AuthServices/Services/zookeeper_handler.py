@@ -9,7 +9,7 @@ import json
 
 class ZookeeperHandler:
     def registerAuthService(port):
-        zk = KazooClient(hosts='localhost:2181', read_only=True)
+        zk = KazooClient(hosts='149.165.170.7:2181', read_only=True)
         zk.start()
 
         path = '/home/centos/Team-Rocket/AuthServices'
