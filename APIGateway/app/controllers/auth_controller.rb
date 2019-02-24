@@ -38,7 +38,7 @@ class AuthController < ApplicationController
   private
   # Method to extract data from post request
   def auth_params
-    params.require(:auth).permit(:firstName, :lastName, :email, :password, :confirmPassword, :dob)
+    params.require(:auth).permit(:firstName, :lastName, :email, :password, :confirmPassword, :dob, :username)
   end
   # Method to retrieve host for AuthServices
   def auth_uri

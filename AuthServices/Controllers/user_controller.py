@@ -10,6 +10,7 @@ from Models.User import User
 from Services.jwt import Jwt
 from Services.service import Service
 from Services.zookeeper_handler import ZookeeperHandler
+from RabbitMQ.email_queue import EmailQueue
 
 #in order to access any images
 app = Flask(__name__, static_url_path='/static')
@@ -51,6 +52,8 @@ def check():
 if __name__ == '__main__':
 	try:
 		ZookeeperHandler.registerAuthService(5000)
+		email_queue = EmailQueue()
+		email_queue.receiver()
 	except Exception as e:
 		print(e)
 	app.run(host = '0.0.0.0', port = 5000)

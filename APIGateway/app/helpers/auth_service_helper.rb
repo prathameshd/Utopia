@@ -31,8 +31,10 @@ module AuthServiceHelper
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
         'Authorization' => request.headers[:Authorization]})
-      req.body = {"email" => auth_params['email'], "password" => auth_params['password'], "confirmPassword"=>auth_params['confirmPassword'],
-        "dob"=>auth_params['dob'], "firstName" => auth_params['firstName'], "lastName"=>auth_params['lastName']}.to_json
+      req.body = {"email" => auth_params['email'], "password" => auth_params['password'],
+        "confirmPassword"=>auth_params['confirmPassword'],
+        "dob"=>auth_params['dob'], "firstName" => auth_params['firstName'],
+        "lastName"=>auth_params['lastName'], "username" => auth_params['username']}.to_json
       http.request(req)
     rescue => e
       raise e
