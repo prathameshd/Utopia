@@ -12,7 +12,7 @@ class ZookeeperHandler:
         zk = KazooClient(hosts='localhost:2181', read_only=True)
         zk.start()
 
-        path = '/Users/sairohithachanta/Data/SGA/Project-2/Team-Rocket/AuthServices'
+        path = '/home/centos/Team-Rocket/AuthServices'
         host = '127.0.0.1'
         pass_data=json.dumps({"host":host, "port":port}).encode('utf-8')
         try:

@@ -5,3 +5,6 @@ dnspython
 pymongo
 flask-cors
 passlib
+kazoo
+requests
+pika
