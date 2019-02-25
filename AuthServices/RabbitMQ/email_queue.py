@@ -3,7 +3,7 @@ import pika
 class EmailQueue:
 
     def get_channel(self):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='149.165.170.7'))
         channel = connection.channel()
         channel.queue_declare(queue='email')
         return channel
