@@ -7,13 +7,14 @@ from json import load
 import requests
 import json
 
+# Zookeeper Service Registry
 class ZookeeperHandler:
     def registerAuthService(port):
         zk = KazooClient(hosts='149.165.170.7:2181', read_only=True)
         zk.start()
 
         path = '/home/centos/Team-Rocket/AuthServices'
-        host = '149.165.170.76'
+        host = '149.165.169.254'  # AuthServices
         pass_data=json.dumps({"host":host, "port":port}).encode('utf-8')
         try:
             zk.delete(path, recursive=True)
