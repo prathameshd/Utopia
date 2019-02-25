@@ -12,12 +12,10 @@ class ZookeeperHandler:
     def registerAuthService(port):
         zk = KazooClient(hosts='149.165.170.7:2181', read_only=True)
         zk.start()
-
         path = '/home/centos/Team-Rocket/AuthServices'
-        host = '149.165.169.254'  # AuthServices
+        host= str(requests.get('https://ip.42.pl/raw').text) # AuthServices
         pass_data=json.dumps({"host":host, "port":port}).encode('utf-8')
         try:
-            zk.delete(path, recursive=True)
             zk.create(path,value=pass_data, ephemeral=True, makepath=True)
             print("Auth Service is running '"+path+"' here.")
         except NodeExistsError:
