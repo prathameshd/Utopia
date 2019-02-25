@@ -13,7 +13,7 @@ class ZookeeperHandler:
         zk.start()
 
         path = '/home/centos/Team-Rocket/AuthServices'
-        host = '127.0.0.1'
+        host = '149.165.170.76'
         pass_data=json.dumps({"host":host, "port":port}).encode('utf-8')
         try:
             zk.delete(path, recursive=True)
