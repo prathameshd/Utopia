@@ -7,11 +7,9 @@ module ApiBrokerHelper
   # Get Auth helper, used to call the /get_auth_helper present in APIBroker
   def get_auth_helper(url)
     begin
-      p 'dhjashdjasdka'
-      host_details = zookeeper_helper(url)
-      p host_details
-      host = host_details["host"]
-      port = host_details["port"].to_s
+      #host_details = zookeeper_helper(url)
+      host = "localhost"#{}host_details["host"]
+      port = "3002"#{}host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getAuth')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
