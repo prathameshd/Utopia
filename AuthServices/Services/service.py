@@ -6,12 +6,29 @@ import re
 from Services.mongo_config import MongoConfig
 from Services.crypto import Crypto
 from Services.jwt import Jwt
+from Services.email_service import EmailService
 
 #Importing models
 from Models.User import User
 
 
 class Service:
+
+	def email_text(self, username):
+		html = """
+		<html>
+		  <body>
+		    <p>Hi """+username+""",<br><br>
+		       We are happy that you have joined us.<br><br>
+		       Thanks,<br>
+			   Eutopia Team,<br>
+			   Bloomington,<br>
+			   IN, US.<br>
+		    </p>
+		  </body>
+		</html>
+		"""
+		return html
 
 	#Service Method to register a user
 	def register(self, user):
@@ -27,6 +44,8 @@ class Service:
 						if "confirmPassword" in user:
 							del user['confirmPassword']
 						saved_user = collection.insert_one(user)
+						email_queue = EmailService()
+						email_queue.send_email(user['email'], 'Welcome to Etopia', self.email_text(user['username']))
 						user = User()
 						user.user_id = str(saved_user.inserted_id)
 						return user

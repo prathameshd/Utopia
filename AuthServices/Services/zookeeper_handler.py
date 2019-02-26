@@ -7,16 +7,15 @@ from json import load
 import requests
 import json
 
+# Zookeeper Service Registry
 class ZookeeperHandler:
     def registerAuthService(port):
-        zk = KazooClient(hosts='localhost:2181', read_only=True)
+        zk = KazooClient(hosts='149.165.170.7:2181', read_only=True)
         zk.start()
-
-        path = '/Users/sairohithachanta/Data/SGA/Project-2/Team-Rocket/AuthServices'
-        host = '127.0.0.1'
+        path = '/home/centos/Team-Rocket/AuthServices'
+        host= str(requests.get('https://ip.42.pl/raw').text) # AuthServices
         pass_data=json.dumps({"host":host, "port":port}).encode('utf-8')
         try:
-            zk.delete(path, recursive=True)
             zk.create(path,value=pass_data, ephemeral=True, makepath=True)
             print("Auth Service is running '"+path+"' here.")
         except NodeExistsError:
