@@ -42,6 +42,6 @@ class AuthController < ApplicationController
   end
   # Method to retrieve host for AuthServices
   def auth_uri
-    "http://localhost:5000"
+    "/Users/sairohithachanta/Data/SGA/Project-2/Team-Rocket/AuthServices"
   end
 end
