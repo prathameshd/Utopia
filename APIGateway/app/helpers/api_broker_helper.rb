@@ -18,7 +18,6 @@ module ApiBrokerHelper
         'Authorization' => request.headers[:Authorization]})
       http.request(req)
     rescue => e
-      p e
       raise e
     end
   end
