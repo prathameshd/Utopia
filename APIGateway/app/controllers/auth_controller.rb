@@ -42,6 +42,6 @@ class AuthController < ApplicationController
   end
   # Method to retrieve host for AuthServices
   def auth_uri
-    "/home/centos/Team-Rocket/AuthServices"
+    "/AuthServices"
   end
 end

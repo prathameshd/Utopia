@@ -186,11 +186,11 @@ getRecommendedValence(){
 				ToastStore.info("You have not listened to any song yet :( ");
 				console.log("USER HAS NO HISTORY!!!")
 			}
-		}	
+		}
 		else{
 				return([])
 			}
-		
+
 	}).catch(err => {
 		console.log("CO.VALENCE ", err)
 		if(err.status==401){
@@ -206,9 +206,9 @@ setHistory(song, valence){
 	axios
 	({
 		method:'post',
-		url:config.apiGateway+'/profile_services/set_history_and_mood',
+		url:config.apiGateway+'/profile_service/set_history_and_mood',
 		data:{
-			songId: song,
+			song_id: JSON.stringify(song),
 			valence: valence
 		},
 		headers: {
@@ -316,7 +316,7 @@ searchSongs()
 					searchResultMessage:""
 				})
 				console.log("results found")
-				
+
 			}
 			else{
 				this.setState({isSearchResultsVisible: false,
@@ -465,7 +465,7 @@ render()
 
 			return(
 				<div>
-				
+
 				<div className="moodBox" style={{paddingBottom:"4%"}}>
 				<h3 style={{color:"white"}}>How are you feeling today?</h3><br />
 				{
@@ -475,7 +475,7 @@ render()
 						<CardMedia image = {el2.url} style= {{height: "inherit", width:"inherit", paddingRight:200, cursor: "pointer"}}>
 
 							<div style={{height:'inherit'}}>
-							<div 
+							<div
 							style= {{lineHeight: "140px", paddingLeft: '69px', height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
 								{el2.moodName}
 							</div>
@@ -485,21 +485,21 @@ render()
 						</Card>))
 				}
 				</div>
-			
-		
+
+
 				<div className="row">
 				<div className="col-sm-3"></div>
 				<div className="col-sm-6" style={{paddingBottom:"4%"}}><input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search for your song" style={{borderRadius:15, height:'40px'}} id="searchQuery" aria-label="Search" onKeyPress={this.handleEnterKey} />
 				</div></div>
-				
+
 				<div style={{paddingBottom:'2%'}}>
 					{resultsDiv}
 				</div>
 
-				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
+				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>
 					{recommendDiv}
 				</div>
-				
+
 				<div className="player ">
 				<iframe src={this.state.currentSong} width="100%" height="80px" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>

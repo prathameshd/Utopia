@@ -81,7 +81,7 @@ class ApiBrokerController < ApplicationController
   end
   # Method to retrieve host for APIBroker
   def api_broker_uri
-    "/home/centos/Team-Rocket/APIBroker"
+    "/APIBroker"
   end
 
 end

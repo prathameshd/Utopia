@@ -7,9 +7,9 @@ module ApiBrokerHelper
   # Get Auth helper, used to call the /get_auth_helper present in APIBroker
   def get_auth_helper(url)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#{}host_details["host"]
-      port = "3002"#{}host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getAuth')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
@@ -23,9 +23,9 @@ module ApiBrokerHelper
   # Get accessed helper, used to call the /get_access_helper present in APIBroker
   def get_access_helper(url, api_broker_params)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#host_details["host"]
-      port = "3002"#host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getAccess')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
@@ -40,9 +40,9 @@ module ApiBrokerHelper
   # Search Song helper, used to call the /search_song_helper present in APIBroker
   def search_song_helper(url, api_broker_params)
     begin
-      #host_details = zookeeper_helper(url)
-      host = 'localhost'#host_details["host"]
-      port = '3002'#host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/searchSong')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
@@ -57,9 +57,9 @@ module ApiBrokerHelper
   # Get Valence helper, used to call the /get_valence_helper present in APIBroker
   def get_valence_helper(url,api_broker_params)
     begin
-      #host_details = zookeeper_helper(url)
-      host = 'localhost'#host_details["host"]
-      port = '3002'#host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getValence')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
@@ -74,9 +74,9 @@ module ApiBrokerHelper
   # Get Recommended Tracks helper, used to call the /get_recommended_track_helper present in APIBroker
   def get_recommended_track_helper(url,api_broker_params)
     begin
-      #host_details = zookeeper_helper(url)
-      host = 'localhost'#host_details["host"]
-      port = '3002'#host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getRecommendedTracks')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
