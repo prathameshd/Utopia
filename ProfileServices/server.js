@@ -42,3 +42,24 @@ var routes = require('./api/routes/userMgmtServiceRoutes');
 
 //register the route
 routes(app); 
+
+// ZooKeeper Service registration
+var zookeeper = require('node-zookeeper-client');
+var client = zookeeper.createClient('localhost:2181');
+var path = "/ProfileServices";
+var data ={host: "localhost", port: "3001"}
+client.once('connected', function () {
+    console.log('[UserMgmt] Connected to ZOOKEEPER!');
+ 
+    client.create(path, new Buffer(JSON.stringify(data)), function (error) {
+        if (error) {
+            console.log('[UserMgmt]  Failed to create node: %s due to: %s.', path, error);
+        } else {
+            console.log('[UserMgmt] Node: %s is successfully created.', path);
+        }
+ 
+        client.close();
+    });
+});
+ 
+client.connect();
