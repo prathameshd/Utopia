@@ -47,7 +47,7 @@ class Login extends Component {
     return axios
     ({
       method:'post',
-      url:config.authHost+'/login',
+      url:config.apiGateway+'/auth/login',
       headers: {'Access-Control-Allow-Origin': '*'},
       data: loginData
 
@@ -77,7 +77,7 @@ class Login extends Component {
       return axios
       ({
         method:'get',
-        url:config.apiBrokerHost+'/getAuth',
+        url:config.apiGateway+'/api_broker/get_auth',
         headers: {'Access-Control-Allow-Origin': '*',
         'Authorization': 'Bearer '+ this.state.jwt
       }

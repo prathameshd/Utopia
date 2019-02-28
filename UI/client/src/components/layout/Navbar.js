@@ -56,7 +56,7 @@ handleOpen()
   axios
   ({
     method:'get',
-      url:config.profileServices+'/getHistoryAndMood',
+      url:config.apiGateway+'/profile_services/get_history_and_mood',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -90,7 +90,7 @@ handleOpen()
     axios
   ({
     method:'get',
-      url: config.profileServices+'/getPersonalDetails',
+      url: config.apiGateway+'/profile_services/get_personal_details',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
