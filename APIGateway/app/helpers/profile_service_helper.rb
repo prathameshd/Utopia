@@ -7,9 +7,9 @@ module ProfileServiceHelper
   # Get history and mood helper, used to call the /get_history_and_mood present in Profile Services
   def get_history_and_mood_helper(url)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#{}host_details["host"]
-      port = "3001"#{}host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getHistoryAndMood')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
@@ -23,17 +23,16 @@ module ProfileServiceHelper
   # Get accessed helper, used to call the /get_access_helper present in APIBroker
   def set_history_and_mood_helper(url, profile_services_params)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#host_details["host"]
-      port = "3001"#host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/setHistoryAndMood')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
         'Authorization' => request.headers[:Authorization]})
-      req.body = {"songId" => profile_services_params['songId'], "valence" => profile_services_params['valence']}.to_json
+      req.body = {"songId" => JSON.parse(profile_services_params['song_id']), "valence" => profile_services_params['valence']}.to_json
       http.request(req)
     rescue => e
-      p e
       raise e
     end
   end
@@ -41,9 +40,9 @@ module ProfileServiceHelper
   # Get history and mood helper, used to call the /get_history_and_mood present in Profile Services
   def get_personal_details_helper(url)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#{}host_details["host"]
-      port = "3001"#{}host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getPersonalDetails')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',

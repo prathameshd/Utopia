@@ -18,33 +18,33 @@ app.use(bodyParser.json());
 app.use(express.json()); // supports JSON encoded bodies for POST
 app.use(express.urlencoded()); // supports URL encoded bodies
 app.listen(port);
-console.log("[APIBroker] NodeJS Server started on: " + port); 
+console.log("[APIBroker] NodeJS Server started on: " + port);
 
 app.use(cors())
 
 //importing route
-var routes = require('./api/routes/APIBrokerRoutes'); 
+var routes = require('./api/routes/APIBrokerRoutes');
 
 //register the route
-routes(app); 
+routes(app);
 
 // ZooKeeper Service registration
 var zookeeper = require('node-zookeeper-client');
-var client = zookeeper.createClient('localhost:2181');
+var client = zookeeper.createClient('149.165.170.7:2181');
 var path = "/APIBroker";
 var data ={host: "localhost", port: "3002"}
 client.once('connected', function () {
     console.log('[APIBroker] Connected to ZOOKEEPER!');
- 
+
     client.create(path, new Buffer(JSON.stringify(data)), function (error) {
         if (error) {
             console.log('[APIBroker]  Failed to create node: %s due to: %s.', path, error);
         } else {
             console.log('[APIBroker]  Node: %s is successfully created.', path);
         }
- 
+
         client.close();
     });
 });
- 
+
 client.connect();

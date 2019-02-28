@@ -7,9 +7,9 @@ module RecoEngineHelper
   # Get recommended valence helper, used to call the /getRecommendedValence present in RecommendationEngine
   def get_recommended_valence_helper(url)
     begin
-      #host_details = zookeeper_helper(url)
-      host = "localhost"#{}host_details["host"]
-      port = "8001"#{}host_details["port"].to_s
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
       uri = URI('http://'+host+':'+port+'/getRecommendedValence')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
