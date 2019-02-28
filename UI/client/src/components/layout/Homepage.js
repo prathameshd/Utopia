@@ -78,7 +78,7 @@ componentDidMount()
 	return axios
 	({
 		method:'post',
-		url:config.apiBrokerHost+'/getAccess',
+		url:config.apiGateway+'/api_broker/get_access',
 		data:{
 			codeCode
 		},
@@ -118,7 +118,7 @@ getRecommendedTrackList(valence){
 	return axios
 	({
 		method:'post',
-		url:config.apiBrokerHost+'/getRecommendedTracks',
+		url:config.apiGateway+'/api_broker/get_recommended_track',
 		data:{
 			access_token:sessionStorage.getItem('spotifyToken'),
 			valence: valence
@@ -164,7 +164,7 @@ getRecommendedValence(){
 	return axios
 	({
 		method:'GET',
-		url:config.recommendationEngine+'getRecommendedValence',
+		url:config.apiGateway+'/recommendation_engine/get_recommended_valence',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -206,7 +206,7 @@ setHistory(song, valence){
 	axios
 	({
 		method:'post',
-		url:config.profileServices+'/setHistoryAndMood',
+		url:config.apiGateway+'/profile_services/set_history_and_mood',
 		data:{
 			songId: song,
 			valence: valence
@@ -246,7 +246,7 @@ getValenceFromAPIBroker(song_id, song){
 	axios
 	({
 		method:'post',
-		url:config.apiBrokerHost+'/getValence',
+		url:config.apiGateway+'/api_broker/get_valence',
 		data:{
 			songId:song_id,
 			access_token:sessionStorage.getItem('spotifyToken')
@@ -292,7 +292,7 @@ searchSongs()
 	return axios
 	({
 		method:'post',
-		url:config.apiBrokerHost+'/searchSong',
+		url:config.apiGateway+'/api_broker/search_song',
 		data:{
 			q:query,
 			access_token:sessionStorage.getItem('spotifyToken')
@@ -360,7 +360,7 @@ moodSearch(valence)
 	return axios
 	({
 		method:'post',
-		url:config.apiBrokerHost+'/getRecommendedTracks',
+		url:config.apiGateway+'/api_broker/get_recommended_track',
 		data:{
 			access_token:sessionStorage.getItem('spotifyToken'),
 			valence: valence
