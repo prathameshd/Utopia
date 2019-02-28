@@ -19,9 +19,9 @@ class Service:
 		<html>
 		  <body>
 		    <p>Hi """+username+""",<br><br>
-		       We are happy that you have joined us.<br><br>
+		       We are happy that you have joined us. From now on, we will try to keep you happy<br><br>
 		       Thanks,<br>
-			   Eutopia Team,<br>
+			   Utopia Team,<br>
 			   Bloomington,<br>
 			   IN, US.<br>
 		    </p>
@@ -45,7 +45,7 @@ class Service:
 							del user['confirmPassword']
 						saved_user = collection.insert_one(user)
 						email_queue = EmailService()
-						email_queue.send_email(user['email'], 'Welcome to Etopia', self.email_text(user['firstName']))
+						email_queue.send_email(user['email'], 'Welcome to Utopia', self.email_text(user['firstName']))
 						user = User()
 						user.user_id = str(saved_user.inserted_id)
 						return user
