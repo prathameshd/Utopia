@@ -34,7 +34,7 @@ class Register extends Component {
     return axios
     ({
       method:'post',
-      url: config.authHost+'/register',
+      url: config.apiGateway+'/auth/register',
       headers: {'Access-Control-Allow-Origin': '*'},
       data: newUser
 
