@@ -25,13 +25,13 @@ MongoClient.connect(MONGO_STRING, function(err, client) {
 	  console.log(err);
 	  return console.error(err);
   }
-  
+
   // Global db variable to connect to db
   global.db = client.db('userdb');
-  
+
   // Starting the server
   app.listen(port);
-  console.log("[UserMgmt] NodeJS Server started on: " + port); 
+  console.log("[UserMgmt] NodeJS Server started on: " + port);
 });
 
 const cors = require('cors')
@@ -46,11 +46,12 @@ app.use(express.urlencoded()); // supports URL encoded bodies
 app.use(cors())
 
 //importing route
-var routes = require('./api/routes/userMgmtServiceRoutes'); 
+var routes = require('./api/routes/userMgmtServiceRoutes');
 
 //register the route
-routes(app); 
+routes(app);
 
+<<<<<<< HEAD
 
 
 //getting the IP
@@ -67,6 +68,16 @@ dynamicAddress=function(){
     console.log(data)
     console.log('[APIBroker] Connected to ZOOKEEPER!');
  
+=======
+// ZooKeeper Service registration
+var zookeeper = require('node-zookeeper-client');
+var client = zookeeper.createClient('149.165.170.7:2181');
+var path = "/ProfileServices";
+var data ={host: "localhost", port: "3001"}
+client.once('connected', function () {
+    console.log('[UserMgmt] Connected to ZOOKEEPER!');
+
+>>>>>>> ecec4cf9e234458bb31f4caf9723f8865d9ad270
     client.create(path, new Buffer(JSON.stringify(data)), function (error) {
         if (error) 
         {
@@ -76,11 +87,16 @@ dynamicAddress=function(){
         {
             console.log('[APIBroker]  Node: %s is successfully created.', path);
         }
- 
+
         client.close();
     });
+<<<<<<< HEAD
     });
  
+=======
+});
+
+>>>>>>> ecec4cf9e234458bb31f4caf9723f8865d9ad270
 client.connect();
 
     }).catch((err)=>{

@@ -49,14 +49,14 @@ class Navbar extends Component {
     this.setState({ open: false });
  };
 
-handleOpen() 
+handleOpen()
  {
       this.setState({ open: true });
-      
+
   axios
   ({
     method:'get',
-      url:config.apiGateway+'/profile_services/get_history_and_mood',
+      url:config.apiGateway+'/profile_service/get_history_and_mood',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -90,7 +90,7 @@ handleOpen()
     axios
   ({
     method:'get',
-      url: config.apiGateway+'/profile_services/get_personal_details',
+      url: config.apiGateway+'/profile_service/get_personal_details',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
@@ -196,22 +196,22 @@ handleOpen()
                     width: '80%',
                     scroll:'auto',
                     borderRadius: '5px'
-                                    
+
                   }} className={classes.paper}>
 
                 <Typography variant="h6" id="modal-title">
                 <h4 style={{background: '#303952', width: "100%", padding: "10px", color: '#fff'}}>User Profile</h4>
                 {this.state.userName} <br />
-                {this.state.userEmail}<br />                
+                {this.state.userEmail}<br />
 
                 </Typography>
 
                 <Typography variant="subtitle1" id="simple-modal-description">
-                
-                <h4 style={{background: '#574b90', width: "100%", padding: "10px", color: '#fff'}}>History</h4>
-                
 
-                 
+                <h4 style={{background: '#574b90', width: "100%", padding: "10px", color: '#fff'}}>History</h4>
+
+
+
                   {
                   this.state.arrayOfHistory.map((el,i) => (
                     <Card key={i} style={{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingTop: '10px', fontColor: 'black'}}>
@@ -240,7 +240,7 @@ handleOpen()
 
 
                  </Typography>
-                
+
               </div>
             </Modal>
 
@@ -248,7 +248,7 @@ handleOpen()
 
 
 
-      
+
     )
   }
 }
