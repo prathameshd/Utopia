@@ -6,7 +6,13 @@ import (
 	 "io/ioutil"
 	 "fmt"
      "RecommendationEngine/utils"
+     "os"
 )
+
+type Configuration struct {
+    API_GATEWAY_DOMAIN string
+    API_GATEWAY_PORT   string
+}
 
 // Struct for converting the JSON response to obj
 type UserHistory struct {
@@ -37,17 +43,28 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 	
 	 w.Header().Set("Access-Control-Allow-Origin", "*")
 
+	 // GETS THE IP ADDRESS OF API GATEWAY
+		file, _ := os.Open("config.json")
+		defer file.Close()
+		decoder := json.NewDecoder(file)
+		config := Configuration{}
+		err := decoder.Decode(&config)
+		if err != nil {
+		  fmt.Println("error:", err)
+		}
+	// END OF READING FROM CONFIG.JSON
+
 	incomingAuthHeader := r.Header.Get("Authorization")
 	
 	// Extracting token (removes "Bearer ")
 	token := incomingAuthHeader[7:]
 	fmt.Printf("%s TOKEN: ", token)
-	DOMAIN := "localhost"
-	PORT := "3001"
-	USER_MGMT_URL := "http://"+DOMAIN+":" + PORT
+	
+	// Forming the URL to hit for API GATEWAY
+	USER_MGMT_URL := "http://"+ config.API_GATEWAY_DOMAIN+":" + config.API_GATEWAY_PORT
 	
 	// Passing the JWT token along to the next micro-service...
-	request, _ := http.NewRequest("GET", USER_MGMT_URL+ "/getHistoryAndMood", nil)
+	request, _ := http.NewRequest("GET", USER_MGMT_URL+ "/profile_service/get_history_and_mood", nil)
 	request.Header.Set("Authorization", "Bearer "+ token)
 	client := &http.Client{}
 	response, err := client.Do(request)
