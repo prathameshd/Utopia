@@ -33,7 +33,7 @@ class Register extends Component {
 
     return axios
     ({
-      method:'post',
+      method:'POST',
       url: config.apiGateway+'/auth/register',
       headers: {'Access-Control-Allow-Origin': '*'},
       data: newUser
@@ -44,7 +44,7 @@ class Register extends Component {
       if(response.status == 200)
       {
         ToastStore.success("Congrats! Your account has been created!");
-        window.location = 'http://localhost:3000';
+        window.location = '/';
 
       }
     }).catch(err =>
