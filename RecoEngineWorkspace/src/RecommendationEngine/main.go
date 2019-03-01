@@ -13,11 +13,11 @@ import (
 )
 
 func main() {
-    
+
     router := mux.NewRouter()
     router.HandleFunc("/getRecommendedValence", controllers.PreflightGetRecommendedValence).Methods("OPTIONS")
     router.HandleFunc("/getRecommendedValence", controllers.GetRecommendedValence).Methods("GET")
-    
+
 
      // ----------------------- Zookeeper registration -----------------------------//
 
@@ -32,7 +32,7 @@ func main() {
 
 
     // Connecting to ZK on jetStream VM..hardcoded ip is okay!
-    c, _, err := zk.Connect([]string{"149.165.170.7"}, time.Second) 
+    c, _, err := zk.Connect([]string{"149.165.170.7:2181"}, time.Second) 
     if err != nil {
         fmt.Println("[RecoEngine] Err connecting with ZK %s",err)
         panic(err)
@@ -48,12 +48,11 @@ func main() {
     }
 
     fmt.Printf("[RecoEngine] Successfully created ZK Node: %+v\n", res)
-    
+
     // ----------------------- Zookeeper registration ends -----------------------------//
 
     // Starting the Go server
     fmt.Println("[RecoEngine] Starting Go Server at 8001...")
     log.Fatal(http.ListenAndServe(":8001", router))
-    
-}
 
+}

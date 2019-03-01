@@ -23,7 +23,7 @@ class RecommendationEngineController < ApplicationController
   private
   # Method to retrieve host for APIBroker
   def reco_engine_uri
-    "/RecoEngineWorkspace"
+    "/RecoEngine"
   end
 
 end

@@ -8,8 +8,8 @@ module RecoEngineHelper
   def get_recommended_valence_helper(url)
     begin
       host_details = zookeeper_helper(url)
-      host = host_details["host"]
-      port = host_details["port"].to_s
+      host = host_details[0]
+      port = host_details[1].to_s
       uri = URI('http://'+host+':'+port+'/getRecommendedValence')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
@@ -24,7 +24,8 @@ module RecoEngineHelper
   def zookeeper_helper(url)
     z = Zookeeper.new("149.165.170.7:2181")
     host_details= z.get(:path => url)
-    host_details=JSON.parse(host_details[:data])
+    host_details=host_details[:data]
+    host_details=host_details.split(":")
     host_details
   end
 
