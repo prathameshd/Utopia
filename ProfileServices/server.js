@@ -4,7 +4,8 @@
  */
 
 // Express
-var express = require('express'),
+var express = require('express')
+var axios = require('axios')
   app = express(),
   port = process.env.PORT || 3001,
   bodyParser = require('body-parser');
@@ -16,8 +17,8 @@ var MONGO_STRING = "mongodb+srv://achanta:userservice@userservice-recot.mongodb.
 
 MongoClient.connect(MONGO_STRING, function(err, client) {
   if(err) {
-	  console.log(err);
-	  return console.error(err);
+    console.log(err);
+    return console.error(err);
   }
 
   // Global db variable to connect to db
@@ -47,15 +48,22 @@ routes(app);
 var zookeeper = require('node-zookeeper-client');
 var client = zookeeper.createClient('149.165.170.7:2181');
 var path = "/ProfileServices";
-var data ={host: "localhost", port: "3001"}
-client.once('connected', function () {
+
+//get dynamic IP
+dynamicAddress=function(){
+    axios({
+      method:'get',
+      url: 'https://ip.42.pl/raw',
+    }).then((response)=>{
+    var data={host:response.data,port:'3001'}
+    client.once('connected', function () {
     console.log('[UserMgmt] Connected to ZOOKEEPER!');
 
     client.create(path, new Buffer(JSON.stringify(data)), function (error) {
         if (error) {
             console.log('[UserMgmt]  Failed to create node: %s due to: %s.', path, error);
         } else {
-            console.log('[UserMgmt] Node: %s is successfully created.', path);
+            console.log('[UserMgmt]  Node: %s is successfully created.', path);
         }
 
         client.close();
@@ -63,3 +71,11 @@ client.once('connected', function () {
 });
 
 client.connect();
+
+    }).catch((err)=>{
+
+    });
+
+  }
+var temp;
+temp=dynamicAddress();

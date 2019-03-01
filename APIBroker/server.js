@@ -4,7 +4,9 @@
  */
 
 // Express
-var express = require('express'),
+var express = require('express')
+var axios = require('axios')
+
   app = express(),
   port = process.env.PORT || 3002,
   bodyParser = require('body-parser');
@@ -32,8 +34,15 @@ routes(app);
 var zookeeper = require('node-zookeeper-client');
 var client = zookeeper.createClient('149.165.170.7:2181');
 var path = "/APIBroker";
-var data ={host: "localhost", port: "3002"}
-client.once('connected', function () {
+
+//get dynamic IP
+dynamicAddress=function(){
+    axios({
+      method:'get',
+      url: 'https://ip.42.pl/raw',
+    }).then((response)=>{
+    var data={host:response.data,port:'3002'}
+    client.once('connected', function () {
     console.log('[APIBroker] Connected to ZOOKEEPER!');
 
     client.create(path, new Buffer(JSON.stringify(data)), function (error) {
@@ -48,3 +57,11 @@ client.once('connected', function () {
 });
 
 client.connect();
+
+    }).catch((err)=>{
+
+    });
+
+  }
+var temp;
+temp=dynamicAddress();
