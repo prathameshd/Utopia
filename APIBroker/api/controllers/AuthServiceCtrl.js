@@ -175,5 +175,3 @@ exports.get_recommended_track = function(req, res){
 	}
 }
 
-
-}

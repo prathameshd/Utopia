@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {ToastContainer, ToastStore} from 'react-toasts'
 var config = require('../../config');
-const publicIp = require('public-ip');
-
-
 
 class Login extends Component {
 
