@@ -44,12 +44,12 @@ class Login extends Component {
   
     // This is the data object to be passed in POST body
     console.log("inside loging")
-	/*
+	
 	var promise1=Promise.resolve(publicIp.v4());
 	promise1.then(function(value){
 		console.log(value);
 		
-	return axios
+	axios
     ({
       method:'post',
       url:config.apiGateway+'/api_broker/pass_ip',
@@ -67,7 +67,7 @@ class Login extends Component {
 		
 		
 		
-	});*/
+	});
 
     const loginData = {
       email: this.state.email,

@@ -18,7 +18,7 @@ module.exports = function(app) {
   app.route('/getRecommendedTracks')
   .post(spotifyAuth.get_recommended_track)
   
-    //app.route('/passIp')
-  .//post(spotifyAuth.pass_ip)
+    app.route('/passIp')
+  .post(spotifyAuth.pass_ip)
     
 };

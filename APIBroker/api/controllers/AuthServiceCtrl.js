@@ -17,7 +17,7 @@ exports.get_auth = function(req, res) {
 	else{
 		axios({
 			method:'get',
-			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F149.165.169.216:3000/home',
+			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F'+globalIp+':3000/home',
 		}).then((response)=>{
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
@@ -46,7 +46,7 @@ exports.get_access = function(req, res) {
 		var bodyParams={							//request body parameters
 				grant_type:"authorization_code",
 				code:codeCode,
-				redirect_uri:'http://149.165.169.216:3000/home'
+				redirect_uri:'http://'+globalIp+':3000/home'
 				};
 		
 		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
@@ -177,7 +177,7 @@ exports.get_recommended_track = function(req, res){
 }
 
 //function to get IP from react
-/*exports.pass_ip = function(req, res) {
+exports.pass_ip = function(req, res) {
 	globalIp=req.data;
 	console.log("value from react is"+globalIp);
-}*/
+}
