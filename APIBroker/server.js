@@ -45,7 +45,7 @@ dynamicAddress=function(){
     client.once('connected', function () {
     console.log('[APIBroker] Connected to ZOOKEEPER!');
 
-    client.create(path, new Buffer(JSON.stringify(data)),1, function (error) {
+    client.create(path, new Buffer(JSON.stringify(data)), function (error) {
         if (error) {
             console.log('[APIBroker]  Failed to create node: %s due to: %s.', path, error);
         } else {
