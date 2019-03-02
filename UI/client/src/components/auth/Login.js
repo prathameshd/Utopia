@@ -54,7 +54,10 @@ class Login extends Component {
       method:'post',
       url:config.apiGateway+'/api_broker/pass_ip',
       headers: {'Access-Control-Allow-Origin': '*'},
-      data: value
+      data: 
+	  {
+		 "ip":value
+	  }
     })
     .then((response)=>{
 
