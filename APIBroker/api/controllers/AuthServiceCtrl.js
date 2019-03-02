@@ -1,7 +1,6 @@
 'use strict';
 const axios = require("axios");
 var utils = require("../utils");
-var globalIp;
 
 exports.get_auth = function(req, res) {
 	
@@ -176,8 +175,5 @@ exports.get_recommended_track = function(req, res){
 	}
 }
 
-//function to get IP from react
-exports.pass_ip = function(req, res) {
-	globalIp=req["body"]["ip"];
-	console.log("value from react is"+globalIp);
+
 }
