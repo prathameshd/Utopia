@@ -68,7 +68,19 @@ class ApiBrokerController < ApplicationController
         render :json => res.body, :status => 500
     end
   rescue => e
-    p e
+    render :json => {:error=>'Something went wrong'}, :status => 500
+  end
+  end
+
+  def pass_ip
+    begin
+      res = pass_ip_helper(api_broker_uri, api_broker_params)
+      if(res.code.include? "200")
+        render :json => res.body, :status => 200
+      else
+        render :json => res.body, :status => 500
+    end
+  rescue => e
     render :json => {:error=>'Something went wrong'}, :status => 500
   end
   end
@@ -77,7 +89,7 @@ class ApiBrokerController < ApplicationController
   private
   # Method to extract data from post request
   def api_broker_params
-    params.require(:api_broker).permit(:codeCode, :access_token, :q, :songId, :valence)
+    params.require(:api_broker).permit(:codeCode, :access_token, :q, :songId, :valence, :ip)
   end
   # Method to retrieve host for APIBroker
   def api_broker_uri

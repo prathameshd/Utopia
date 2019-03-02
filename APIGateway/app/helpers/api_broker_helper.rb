@@ -88,6 +88,24 @@ module ApiBrokerHelper
     end
   end
 
+  # Get ip helper, used to call the /pass_ip present in APIBroker
+  def pass_ip_helper(url,api_broker_params)
+    begin
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
+      uri = URI('http://'+host+':'+port+'/passIp')
+      http = Net::HTTP.new(host, port)
+      req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
+        'Authorization' => request.headers[:Authorization]})
+      req.body = {"ip" => api_broker_params['ip']}.to_json
+      http.request(req)
+    rescue => e
+      raise e
+    end
+  end
+
+
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
     z = Zookeeper.new("149.165.170.7:2181")
