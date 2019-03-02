@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post 'api_broker/search_song'
   post 'api_broker/get_valence'
   post 'api_broker/get_recommended_track'
+  post 'api_broker/pass_ip'
 
   # Routes to login and register APIs present in app/controller/auth_controller/
   post 'auth/login'
