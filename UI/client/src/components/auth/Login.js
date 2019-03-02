@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {ToastContainer, ToastStore} from 'react-toasts'
 var config = require('../../config');
+const publicIp = require('public-ip');
+
+
 
 class Login extends Component {
 
@@ -36,8 +39,39 @@ class Login extends Component {
   // Calls the login backend and gets JWT
   // If successful, calls the Spotify Broker API next
   callLogin(){
+	  
+	
+  
     // This is the data object to be passed in POST body
     console.log("inside loging")
+	
+	var promise1=Promise.resolve(publicIp.v4());
+	promise1.then(function(value){
+		console.log(value);
+		
+	axios
+    ({
+      method:'post',
+      url:config.apiGateway+'/api_broker/pass_ip',
+      headers: {'Access-Control-Allow-Origin': '*'},
+      data: 
+	  {
+		 "ip":value
+	  }
+    })
+    .then((response)=>{
+
+    }).catch(err =>
+      {
+
+      })
+				
+		
+		
+		
+		
+	});
+
     const loginData = {
       email: this.state.email,
       password: this.state.password
@@ -86,6 +120,11 @@ class Login extends Component {
       if(response.status == 200)
       {
         console.log(response)
+		
+		
+		//updating redirectURL
+
+		console.log("updated redirect URL",response.data.data);
         window.location.href = response.data.data;
       }
       else
