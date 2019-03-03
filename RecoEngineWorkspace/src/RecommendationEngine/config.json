@@ -1,0 +1,4 @@
+{
+	"API_GATEWAY_PORT": "3003",
+	"API_GATEWAY_DOMAIN": "localhost"
+}
