@@ -1,4 +1,4 @@
-# Documentation
+# Documentation 
 This document provides the instructions to run the application on your machine.
 
 ### Clone the project
