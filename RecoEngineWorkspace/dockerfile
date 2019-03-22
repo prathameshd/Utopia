@@ -1,6 +1,7 @@
 FROM golang
-RUN git clone -b Project-2 https://github.com/airavata-courses/Team-Rocket.git &&\
-    cd Team-Rocket/RecoEngineWorkspace/ &&\
+RUN mkdir RecoEngineWorkspace
+COPY . /RecoEngineWorkspace
+RUN cd RecoEngineWorkspace/ &&\
     export GOPATH=$GOPATH:/go/Team-Rocket/RecoEngineWorkspace/ &&\
     go get github.com/gorilla/mux &&\
     go get github.com/samuel/go-zookeeper/zk &&\

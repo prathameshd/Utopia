@@ -1,5 +1,7 @@
 FROM node
-RUN git clone -b Project-1 https://github.com/airavata-courses/Team-Rocket.git && cd Team-Rocket/UI && npm install
-WORKDIR /Team-Rocket/UI
+RUN mkdir UI
+COPY . /UI
+RUN cd UI && npm install
+WORKDIR /UI
 EXPOSE 3000
 CMD ["npm", "run", "client"]

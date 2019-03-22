@@ -1,7 +1,8 @@
 FROM ruby:2.6.0
-RUN git clone -b DEV https://github.com/airavata-courses/Team-Rocket.git && \
-    cd Team-Rocket/APIGateway/ &&\
+RUN mkdir APIGateway
+COPY . /APIGateway
+RUN cd APIGateway/ &&\
     bundle install
-WORKDIR /Team-Rocket/APIGateway/
+WORKDIR APIGateway/
 EXPOSE 3003
 CMD ["rails", "s", "-b", "0.0.0.0", "-p", "3003"]

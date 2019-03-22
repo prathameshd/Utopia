@@ -1,5 +1,7 @@
 FROM holbertonschool/ubuntu-1404-python3
-RUN git clone -b DEV https://github.com/airavata-courses/Team-Rocket.git && cd Team-Rocket/AuthServices/ && pip3 install -r requirements.txt
-WORKDIR /Team-Rocket/AuthServices
+RUN mkdir AuthServices
+COPY . /AuthServices
+RUN cd AuthServices/ && pip3 install -r requirements.txt
+WORKDIR AuthServices
 EXPOSE 5000
 CMD ["python3", "-m", "Controllers.user_controller"]

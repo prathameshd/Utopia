@@ -1,5 +1,7 @@
 FROM node
-RUN git clone -b Project-1 https://github.com/airavata-courses/Team-Rocket.git && cd Team-Rocket/APIBroker && npm install && npm install mongodb
-WORKDIR /Team-Rocket/APIBroker
+RUN mkdir APIBroker
+COPY . /APIBroker
+RUN cd APIBroker && npm install && npm install mongodb
+WORKDIR APIBroker
 EXPOSE 3002
 CMD ["node", "server.js"]
