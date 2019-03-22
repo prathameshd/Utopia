@@ -1,0 +1,5 @@
+FROM node
+RUN git clone -b Project-1 https://github.com/airavata-courses/Team-Rocket.git && cd Team-Rocket/ProfileServices/ && npm install && npm install mongodb
+WORKDIR /Team-Rocket/ProfileServices
+EXPOSE 3001
+CMD ["node", "server.js"]
