@@ -1,0 +1,12 @@
+FROM golang
+RUN git clone -b Project-2 https://github.com/airavata-courses/Team-Rocket.git &&\
+    cd Team-Rocket/RecoEngineWorkspace/ &&\
+    export GOPATH=$GOPATH:/go/Team-Rocket/RecoEngineWorkspace/ &&\
+    go get github.com/gorilla/mux &&\
+    go get github.com/samuel/go-zookeeper/zk &&\
+    cd src/RecommendationEngine/ &&\
+    go build &&\
+    cd ../../ &&\
+    cp -r src /go/
+EXPOSE 8001
+CMD ["go", "run", "RecommendationEngine"]
