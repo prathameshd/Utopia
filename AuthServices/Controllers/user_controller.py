@@ -51,7 +51,7 @@ def check():
 #The application starts running from here
 if __name__ == '__main__':
 	try:
-		ZookeeperHandler.registerAuthService(5000)
+		#ZookeeperHandler.registerAuthService(5000)
 		email_queue = EmailQueue()
 		email_queue.receiver()
 	except Exception as e:
