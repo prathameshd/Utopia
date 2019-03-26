@@ -1,8 +1,8 @@
 FROM golang
 RUN mkdir RecoEngineWorkspace
-COPY . /RecoEngineWorkspace
+COPY . RecoEngineWorkspace/
 RUN cd RecoEngineWorkspace/ &&\
-    export GOPATH=$GOPATH:/go/Team-Rocket/RecoEngineWorkspace/ &&\
+    export GOPATH=$GOPATH:/go/RecoEngineWorkspace/ &&\
     go get github.com/gorilla/mux &&\
     go get github.com/samuel/go-zookeeper/zk &&\
     cd src/RecommendationEngine/ &&\

@@ -108,9 +108,10 @@ module ApiBrokerHelper
 
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("149.165.170.7:2181")
-    host_details= z.get(:path => url)
-    host_details=JSON.parse(host_details[:data])
+    # z = Zookeeper.new("149.165.170.7:2181")
+    # host_details= z.get(:path => url)
+    # host_details=JSON.parse(host_details[:data])
+    host_details={"host"=>"apibroker-service", "port"=>30006}
     host_details
   end
 

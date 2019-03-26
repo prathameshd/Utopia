@@ -22,10 +22,11 @@ module RecoEngineHelper
 
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("149.165.170.7:2181")
-    host_details= z.get(:path => url)
-    host_details=host_details[:data]
-    host_details=host_details.split(":")
+    # z = Zookeeper.new("149.165.170.7:2181")
+    # host_details= z.get(:path => url)
+    # host_details=host_details[:data]
+    # host_details=host_details.split(":")
+    host_details=["recoengine-service", 30005]
     host_details
   end
 
