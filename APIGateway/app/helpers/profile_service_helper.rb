@@ -55,9 +55,10 @@ module ProfileServiceHelper
 
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("149.165.170.7:2181")
-    host_details= z.get(:path => url)
-    host_details=JSON.parse(host_details[:data])
+    # z = Zookeeper.new("149.165.170.7:2181")
+    # host_details= z.get(:path => url)
+    # host_details=JSON.parse(host_details[:data])
+    host_details={"host"=>"profile-service", "port"=>30001}
     host_details
   end
 
