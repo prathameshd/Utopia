@@ -111,7 +111,7 @@ module ApiBrokerHelper
     # z = Zookeeper.new("149.165.170.7:2181")
     # host_details= z.get(:path => url)
     # host_details=JSON.parse(host_details[:data])
-    host_details={"host"=>"apibroker-service", "port"=>30006}
+    host_details={"host"=>ENV["APIBROKER_SERVICE_PORT_3002_TCP_ADDR"], "port"=>ENV["APIBROKER_SERVICE_PORT_3002_TCP_PORT"]}
     host_details
   end
 
