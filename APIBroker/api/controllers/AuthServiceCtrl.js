@@ -16,7 +16,7 @@ exports.get_auth = function(req, res) {
 	else{
 		axios({
 			method:'get',
-			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000/home',
+			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F149.165.169.248:3000/home',
 		}).then((response)=>{
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
@@ -45,7 +45,7 @@ exports.get_access = function(req, res) {
 		var bodyParams={							//request body parameters
 				grant_type:"authorization_code",
 				code:codeCode,
-				redirect_uri:'http://localhost:3000/home'
+				redirect_uri:'http://149.165.169.248:3000/home'
 				};
 		
 		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
@@ -175,3 +175,22 @@ exports.get_recommended_track = function(req, res){
 	}
 }
 
+
+exports.get_news = function(req, res) {
+			return axios
+			({
+				method:'get',
+				url:"https://newsapi.org/v2/top-headlines?country=us&apiKey=f4d6541735dc46a09544e805364d3928",
+				headers: {
+					'Access-Control-Allow-Headers': '*'
+				}
+			
+			})
+		.then((response)=>
+			{
+				console.log(response)
+		
+			}).catch(err => {
+
+			});
+}
