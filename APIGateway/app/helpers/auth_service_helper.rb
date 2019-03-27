@@ -46,7 +46,7 @@ module AuthServiceHelper
     # z = Zookeeper.new("149.165.170.7:2181")
     # host_details= z.get(:path => url)
     # host_details=JSON.parse(host_details[:data])
-    host_details={"host"=>"192.168.99.100", "port"=>30004}
+    host_details={"host"=>ENV["AUTH_SERVICE_PORT_5000_TCP_ADDR"], "port"=>ENV["AUTH_SERVICE_PORT_5000_TCP_PORT"]}
     host_details
   end
 

@@ -3,7 +3,7 @@ module.exports= {
   "apiBrokerHost":"http://localhost:3002",
   "recommendationEngine":"http://localhost:8001/",
   "profileServices":"http://localhost:3001",
-  "apiGateway":"http://149.165.168.217:3003",
+  "apiGateway":"http://149.165.156.244:8080",
   "accessToken" : "",
   "name":""
 }

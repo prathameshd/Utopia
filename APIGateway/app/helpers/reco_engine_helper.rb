@@ -26,7 +26,7 @@ module RecoEngineHelper
     # host_details= z.get(:path => url)
     # host_details=host_details[:data]
     # host_details=host_details.split(":")
-    host_details=["recoengine-service", 30005]
+    host_details=[ENV["RECOENGINE_SERVICE_PORT_8001_TCP_ADDR"], ENV["RECOENGINE_SERVICE_PORT_8001_TCP_PORT"]]
     host_details
   end
 
