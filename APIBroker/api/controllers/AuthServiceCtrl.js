@@ -16,7 +16,7 @@ exports.get_auth = function(req, res) {
 	else{
 		axios({
 			method:'get',
-			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F149.165.169.248:3000/home',
+			url: 'https://accounts.spotify.com/en/authorize?client_id=5a7ae5d581534d0aae69875b56e837a5&response_type=code&redirect_uri=http:%2F%2F149.165.169.248:3000/home',
 		}).then((response)=>{
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
@@ -48,7 +48,7 @@ exports.get_access = function(req, res) {
 				redirect_uri:'http://149.165.169.248:3000/home'
 				};
 		
-		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
+		var keys='5a7ae5d581534d0aae69875b56e837a5:1251f7260f40407ea651b31918bc1c4f'; //client_id:client_secret
 		var codedKeys=Buffer.from(keys).toString('base64');								//base64 encoded keys
 	
 			axios({
