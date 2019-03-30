@@ -9,10 +9,12 @@ import (
      "os"
 )
 
+/* OLD APPROACH - gets the details from ENV through Kubernetes now
 type Configuration struct {
     API_GATEWAY_DOMAIN string
     API_GATEWAY_PORT   string
 }
+*/
 
 // Struct for converting the JSON response to obj
 type UserHistory struct {
@@ -43,6 +45,7 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 	
 	 w.Header().Set("Access-Control-Allow-Origin", "*")
 
+	 /* OLD APPROACH - replaced by Kubernetes ENV 
 	 // GETS THE IP ADDRESS OF API GATEWAY
 		file, _ := os.Open("config.json")
 		defer file.Close()
@@ -53,6 +56,7 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 		  fmt.Println("error:", err)
 		}
 	// END OF READING FROM CONFIG.JSON
+	*/
 
 	incomingAuthHeader := r.Header.Get("Authorization")
 	
@@ -60,9 +64,13 @@ func GetRecommendedValence(w http.ResponseWriter, r *http.Request)  {
 	token := incomingAuthHeader[7:]
 	fmt.Printf("%s TOKEN: ", token)
 	
-	// Forming the URL to hit for API GATEWAY
-	USER_MGMT_URL := "http://"+ config.API_GATEWAY_DOMAIN+":" + config.API_GATEWAY_PORT
+	// Forming the URL to hit for API GATEWAY - gets from the ENV created by Kubernetes
+	USER_MGMT_URL := "http://"+ os.Getenv("APIGATEWAY_SERVICE_PORT_3003_TCP_ADDR")+":" + os.Getenv("APIGATEWAY_SERVICE_PORT_3003_TCP_PORT")
+	fmt.Printf("%s API GATEWAY URL: ", USER_MGMT_URL)
 	
+	// OLD APPROACH: Forming the URL to hit for API GATEWAY
+	// USER_MGMT_URL := "http://"+ config.API_GATEWAY_DOMAIN+":" + config.API_GATEWAY_PORT
+
 	// Passing the JWT token along to the next micro-service...
 	request, _ := http.NewRequest("GET", USER_MGMT_URL+ "/profile_service/get_history_and_mood", nil)
 	request.Header.Set("Authorization", "Bearer "+ token)
