@@ -172,6 +172,7 @@ exports.get_recommended_track = function(req, res){
 				res.json(utils.custom_JSON_formatter('success',response["data"].tracks))
 			}).catch(err => {
 				res.status(401).json(utils.custom_JSON_formatter("error", err));
+				
 			});
 
 	}
@@ -197,8 +198,11 @@ for(i=0;i<6;i++)
 {
 //console.log(response.data['articles'][i]['description'])
 var sentiment = new Sentiment();
+if(response.data['articles'][i]['content']!=null)
+{
 var result = sentiment.analyze(response.data['articles'][i]['content'])
 sum+=result.comparative
+}
 }
 var avg=sum/5;
 if(avg<=0){tempValence=0.05}

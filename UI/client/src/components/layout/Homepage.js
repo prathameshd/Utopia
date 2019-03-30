@@ -63,6 +63,8 @@ class Homepage extends Component
 	this.moodSearch=this.moodSearch.bind(this)
 	this.openNews=this.openNews.bind(this)
 	this.getRecommendedTrackListByNews=this.getRecommendedTrackListByNews.bind(this)
+	this.fetchNews=this.fetchNews.bind(this)
+	this.getToken=this.getToken.bind(this)
 
 }
 componentWillMount(){
@@ -81,63 +83,13 @@ componentDidMount()
 		window.location='/';
 	}
 	this.getRecommendedValence(); // Used for getting recommendations
+	this.getToken(codeCode);		//To get token from Spotify	
+	this.fetchNews();				//To get news headlines
+} // ComponentDidMount
 
-	
-
-
-
-return axios
-	({
-		method:'get',
-		url:config.apiBrokerHost+'/getNews',
-		headers: {'Access-Control-Allow-Origin': '*'
-	}
-	// 'Authorization': 'Bearer '+accesstoken }
-	//sessionStorage.getItem('token')}
-})
-.then((response)=>
-{
-	if(response.status == 200)
+//get token from spotify
+	getToken(codeCode)
 	{
-		//console.log(response.data.data)
-		var newsValence=response.data.message
-		newsValence= newsValence.split(":").pop();
-		newsValence=parseFloat(newsValence)
-		console.log(newsValence)
-		this.getRecommendedTrackListByNews(newsValence)
-
-		this.setState({newsResults:response.data.data.articles})
-	}
-	else{
-		return([])
-	}
-}).catch(err => {
-	console.log("No search results ", err)
-	if(err.status==401){
-		window.location.href = "/login";
-	}
-	return([])
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	return axios
 	({
 		method:'post',
@@ -159,9 +111,44 @@ return axios
 			accessToken:response.data.data
 		});
 		sessionStorage.setItem("spotifyToken", response.data.data)
-
 	}
 	else{
+		return([])
+		console.log("error in generating spotify token")
+	}
+}).catch(err => {
+	console.log("No search results ", err)
+	if(err.status==401){
+		window.location.href = "/login";
+	}
+	return([])
+})
+}
+
+//fetch news headlines
+fetchNews()
+{
+return axios
+	({
+		method:'get',
+		url:config.apiBrokerHost+'/getNews',
+		headers: {'Access-Control-Allow-Origin': '*'
+	}
+	// 'Authorization': 'Bearer '+accesstoken }
+	//sessionStorage.getItem('token')}
+})
+.then((response)=>
+{
+	if(response.status == 200)
+	{
+		var newsValence=response.data.message
+		newsValence= newsValence.split(":").pop();
+		newsValence=parseFloat(newsValence)
+		this.getRecommendedTrackListByNews(newsValence)
+		this.setState({newsResults:response.data.data.articles})
+	}
+	else{
+		console.log("error in fetching news")
 		return([])
 	}
 }).catch(err => {
@@ -171,7 +158,8 @@ return axios
 	}
 	return([])
 })
-} // ComponentDidMount
+}
+
 
 ///////
 // Returns suggested tracks
