@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+
 import {ToastContainer, ToastStore} from 'react-toasts'
 var config = require('../../config');
 
@@ -19,6 +20,8 @@ class Homepage extends Component
 		isSearchResultsVisible: false,
 		isRecommendationsVisible: false,
 		songCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
+		newsCardStyle: {marginBottom: 18, width: 350, height: 150, marginRight: 18, display: 'inline-block', color:'black'},
+
 		moodArray: [
 		{
 			moodName:"Good",
@@ -48,6 +51,8 @@ class Homepage extends Component
 		],
 		moodBoxStyle:{marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block', paddingRight:200,textAlign: 'center',color:'black', borderRadius: 20},
 		searchResultMessage:'',
+		newsResults:[],
+		arrayOfSongsByNews:[],
 	};
 	this.searchSongs=this.searchSongs.bind(this)
 	this.playSong=this.playSong.bind(this)
@@ -56,6 +61,8 @@ class Homepage extends Component
 	this.setHistory = this.setHistory.bind(this)
 	this.getRecommendedValence = this.getRecommendedValence.bind(this)
 	this.moodSearch=this.moodSearch.bind(this)
+	this.openNews=this.openNews.bind(this)
+	this.getRecommendedTrackListByNews=this.getRecommendedTrackListByNews.bind(this)
 
 }
 componentWillMount(){
@@ -74,6 +81,62 @@ componentDidMount()
 		window.location='/';
 	}
 	this.getRecommendedValence(); // Used for getting recommendations
+
+	
+
+
+
+return axios
+	({
+		method:'get',
+		url:config.apiBrokerHost+'/getNews',
+		headers: {'Access-Control-Allow-Origin': '*'
+	}
+	// 'Authorization': 'Bearer '+accesstoken }
+	//sessionStorage.getItem('token')}
+})
+.then((response)=>
+{
+	if(response.status == 200)
+	{
+		//console.log(response.data.data)
+		var newsValence=response.data.message
+		newsValence= newsValence.split(":").pop();
+		newsValence=parseFloat(newsValence)
+		console.log(newsValence)
+		this.getRecommendedTrackListByNews(newsValence)
+
+		this.setState({newsResults:response.data.data.articles})
+	}
+	else{
+		return([])
+	}
+}).catch(err => {
+	console.log("No search results ", err)
+	if(err.status==401){
+		window.location.href = "/login";
+	}
+	return([])
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	return axios
 	({
@@ -153,6 +216,54 @@ getRecommendedTrackList(valence){
 		return([])
 	})
 }
+
+
+
+//function to recommend songs by news valence
+getRecommendedTrackListByNews(valence){
+	console.log("Got avg valence!!! Let's get some tracks now!!")
+	return axios
+	({
+		method:'post',
+		url:config.apiBrokerHost+'/getRecommendedTracks',
+		data:{
+			access_token:sessionStorage.getItem('spotifyToken'),
+			valence: valence
+		},
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Authorization': 'Bearer '+ sessionStorage.getItem('jwt')
+		}
+
+	})
+	.then((response)=>
+	{
+		console.log("RECOMMENDED TRACKS ARE: ",response.data)
+		if(response.status === 200)
+		{
+
+			//var finalRecommendedTracks = response.data.data;
+			this.setState({arrayOfSongsByNews: response.data.data})
+			//this.setState({isRecommendationsVisible: true})
+		}
+		else{
+
+			return([])
+		}
+	}).catch(err => {
+
+		console.log("Couldn't get history for user :( ", err)
+		// if(err.response.status==401){
+		// 	window.location.href = "/login";
+		// }
+		console.log(err)
+		return([])
+	})
+}
+
+
+
+
 
 
 // -----------
@@ -396,10 +507,17 @@ moodSearch(valence)
 	})
 }
 
+openNews(param,e)
+{
+	window.open(param)
+}
+
 render()
 {
 	let resultsDiv;
 	let recommendDiv;
+	let newsDiv;
+	let recommendDivNews;
 
 	if(this.state.isSearchResultsVisible){
 		resultsDiv = <div name="searchResults">
@@ -463,6 +581,68 @@ render()
 			}
 
 
+
+
+		newsDiv = <div name="news">
+		<div className="newsView">
+		<div className="newsTitle ">
+				<h3 style={{color:"white"}}>Here are Today's Headlines</h3><br />
+		</div>
+		</div>
+		{
+			this.state.newsResults.slice(0,6).map((el,i) => (
+				<Card onClick={()=>{window.open(el.url)}} key={i} style={this.state.newsCardStyle}>
+			
+				<CardMedia image = {el.urlToImage} style= {{height: "inherit", cursor: "pointer",
+				background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
+				<div name="newsdetails" style={{height:'inherit'}}>
+				<div name="newstitle"
+				style= {{textAlign: "center", height:'inherit', color:"white", fontWeight: "bold", fontSize: 15, paddingTop: "30px", paddingLeft: "30px"}}>
+				{el.title}
+				
+				</div>
+				</div>
+
+				</CardMedia>
+				</Card>))
+			}
+			</div>
+
+
+			recommendDivNews = <div name = "recoResultsNews">
+			<div className="RecommendedSongsView">
+			<div className="RecommendationTitle ">
+			<h4>Songs By News</h4><br />
+			</div>
+			</div>
+			{
+				this.state.arrayOfSongsByNews.map((el,i) => (
+					<Card onClick = {this.playSong.bind(this, el)} key={i} style={this.state.songCardStyle}>
+					<CardMedia image = {el.album.images[0].url} style= {{height: "inherit", cursor: "pointer",
+					background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
+
+					<div name="songDetailsRec" style={{height:'inherit'}}>
+					<div name="titleSongRec"
+					style= {{textAlign: "center", verticalAlign: "middle", lineHeight: "140px", height:'inherit', color:"white", fontWeight: "bold", fontSize: 25}}>
+					{el.name}
+					</div>
+					</div>
+
+					</CardMedia>
+					</Card>))
+				}
+
+				</div>
+
+
+
+
+
+
+
+
+
+
 			return(
 				<div>
 				
@@ -499,7 +679,15 @@ render()
 				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
 					{recommendDiv}
 				</div>
+
+				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
+					{newsDiv}
+				</div>
 				
+				<div style={{paddingTop:'2%', paddingBottom:'2%'}}>				
+					{recommendDivNews}
+				</div>
+
 				<div className="player ">
 				<iframe src={this.state.currentSong} width="100%" height="80px" top="500px" position="relative" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 				</div>
@@ -509,5 +697,5 @@ render()
 		}
 
 
-	}
+}
 	export default Homepage

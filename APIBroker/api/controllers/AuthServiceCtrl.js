@@ -1,6 +1,8 @@
 'use strict';
 const axios = require("axios");
 var utils = require("../utils");
+var Sentiment = require('sentiment');
+
 
 exports.get_auth = function(req, res) {
 	
@@ -16,7 +18,7 @@ exports.get_auth = function(req, res) {
 	else{
 		axios({
 			method:'get',
-			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000/home',
+			url: 'https://accounts.spotify.com/en/authorize?client_id=5a7ae5d581534d0aae69875b56e837a5&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000/home',
 		}).then((response)=>{
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
@@ -48,7 +50,7 @@ exports.get_access = function(req, res) {
 				redirect_uri:'http://localhost:3000/home'
 				};
 		
-		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
+		var keys='5a7ae5d581534d0aae69875b56e837a5:1251f7260f40407ea651b31918bc1c4f'; //client_id:client_secret
 		var codedKeys=Buffer.from(keys).toString('base64');								//base64 encoded keys
 	
 			axios({
@@ -173,4 +175,51 @@ exports.get_recommended_track = function(req, res){
 			});
 
 	}
+}
+
+exports.get_news = function(req,res)
+{
+
+return axios
+({
+method:'GET',
+url:"https://newsapi.org/v2/top-headlines?country=us&apiKey=f4d6541735dc46a09544e805364d3928",
+headers: {
+'Access-Control-Allow-Origin': '*'
+}
+})
+.then((response)=>
+{
+
+var i,tempValence;
+var sum=0;
+for(i=0;i<6;i++)
+{
+//console.log(response.data['articles'][i]['description'])
+var sentiment = new Sentiment();
+var result = sentiment.analyze(response.data['articles'][i]['content'])
+sum+=result.comparative
+}
+var avg=sum/5;
+if(avg<=0){tempValence=0.05}
+if(avg>0 && avg<0.05){tempValence=0.35}
+if(avg>0.05 && avg<0.1){tempValence=0.50}
+if(avg>0.1 && avg<0.15){tempValence=0.65}
+if(avg>0.15){tempValence=0.85}
+res.json(utils.custom_JSON_formatter('success news:'+tempValence,response.data))
+
+console.log("average score",avg)
+}).catch(err => {
+console.log("Error fetching news headlines", err)
+return([])
+})
+
+
+
+
+
+
+
+
+
 }
