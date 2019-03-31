@@ -102,7 +102,7 @@ spec:
     spec:
       containers:
       - name: apigateway-deployment
-        image: n0485/apigateway:production
+        image: n0485/apigateway
         ports:
         - containerPort: 3003
 ---
@@ -124,7 +124,7 @@ spec:
     spec:
       containers:
       - name: profile-deployment
-        image: n0485/profile:production
+        image: n0485/profile
         ports:
         - containerPort: 3001
 ---
@@ -146,7 +146,7 @@ spec:
     spec:
       containers:
       - name: auth-deployment
-        image: n0485/auth:production
+        image: n0485/auth
         ports:
         - containerPort: 5000
 ---
@@ -168,7 +168,7 @@ spec:
     spec:
       containers:
       - name: recoengine-deployment
-        image: n0485/recoengine:production
+        image: n0485/recoengine
         ports:
         - containerPort: 8001
 ---
@@ -190,7 +190,7 @@ spec:
     spec:
       containers:
       - name: apibroker-deployment
-        image: n0485/apibroker:production
+        image: n0485/apibroker
         ports:
         - containerPort: 3002
 ---
@@ -212,6 +212,6 @@ spec:
     spec:
       containers:
       - name: ui-deployment
-        image: n0485/ui:production
+        image: n0485/ui
         ports:
         - containerPort: 3000
