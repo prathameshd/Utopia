@@ -217,7 +217,6 @@ spec:
     spec:
       containers:
       - name: ui-deployment
-        imagePullPolicy: Always
         image: n0485/ui
         ports:
         - containerPort: 3000
