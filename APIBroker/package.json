@@ -24,6 +24,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.13",
     "node-zookeeper-client": "^0.2.3",
-    "public-ip": "^3.0.0"
+    "public-ip": "^3.0.0",
+    "sentiment": "^5.0.1"
   }
 }

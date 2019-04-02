@@ -1,6 +1,7 @@
 'use strict';
 const axios = require("axios");
 var utils = require("../utils");
+var Sentiment = require('sentiment');
 
 exports.get_auth = function(req, res) {
 	
@@ -175,3 +176,44 @@ exports.get_recommended_track = function(req, res){
 	}
 }
 
+
+exports.get_news = function(req,res)
+{
+
+return axios
+({
+method:'GET',
+url:"https://newsapi.org/v2/top-headlines?country=us&apiKey=f4d6541735dc46a09544e805364d3928",
+headers: {
+'Access-Control-Allow-Origin': '*'
+}
+})
+.then((response)=>
+{
+
+var i,tempValence;
+var sum=0;
+for(i=0;i<6;i++)
+{
+//console.log(response.data['articles'][i]['description'])
+var sentiment = new Sentiment();
+if(response.data['articles'][i]['content']!=null)
+{
+var result = sentiment.analyze(response.data['articles'][i]['content'])
+sum+=result.comparative
+}
+}
+var avg=sum/5;
+if(avg<=0){tempValence=0.05}
+if(avg>0 && avg<0.05){tempValence=0.35}
+if(avg>0.05 && avg<0.1){tempValence=0.50}
+if(avg>0.1 && avg<0.15){tempValence=0.65}
+if(avg>0.15){tempValence=0.85}
+res.json(utils.custom_JSON_formatter('success news:'+tempValence,response.data))
+
+console.log("average score",avg)
+}).catch(err => {
+console.log("Error fetching news headlines", err)
+return([])
+})
+}
