@@ -58,7 +58,6 @@ class Homepage extends Component
 	this.setHistory = this.setHistory.bind(this)
 	this.getRecommendedValence = this.getRecommendedValence.bind(this)
 	this.moodSearch=this.moodSearch.bind(this)
-	this.openNews=this.openNews.bind(this)
 	this.getRecommendedTrackListByNews=this.getRecommendedTrackListByNews.bind(this)
 	this.fetchNews=this.fetchNews.bind(this)
 	this.getToken=this.getToken.bind(this)
