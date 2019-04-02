@@ -90,6 +90,7 @@ componentDidMount()
 //get token from spotify
 	getToken(codeCode)
 	{
+		console.log("JWT TOKEN FOR TESTING",sessionStorage.getItem('jwt'))
 	return axios
 	({
 		method:'post',
@@ -583,16 +584,16 @@ render()
 			
 				<CardMedia image = {el.urlToImage} style= {{height: "inherit", cursor: "pointer",
 				background: "linear-gradient( rgba(0, 0, 0, 0), rgba(42, 42, 42, 0.61), '#0000007a'"}}>
+
 				<div name="newsdetails" style={{height:'inherit'}}>
 				<div name="newstitle"
-				style= {{textAlign: "center", height:'inherit', color:"white", fontWeight: "bold", fontSize: 15, paddingTop: "30px", paddingLeft: "30px"}}>
-				{el.title}
+				style= {{textAlign: "center", height:'inherit', color:"white", fontWeight: "bold", fontSize: 12, paddingTop: "100px", paddingLeft: "30px"}}>
+				<bold>{el.title}</bold>
 				
 				</div>
 				</div>
-
-				</CardMedia>
-				</Card>))
+			</CardMedia>
+			</Card>))
 			}
 			</div>
 
@@ -600,7 +601,7 @@ render()
 			recommendDivNews = <div name = "recoResultsNews">
 			<div className="RecommendedSongsView">
 			<div className="RecommendationTitle ">
-			<h4>Songs By News</h4><br />
+			<h4>Some Songs Inspired By Events Around You</h4><br />
 			</div>
 			</div>
 			{
