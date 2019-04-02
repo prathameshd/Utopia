@@ -151,7 +151,7 @@ handleOpen()
       <div>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
       <div className="container-fluid">
-      <Link className="navbar-brand" to="/">Utopia</Link>
+      <div className="navbar-brand">Utopia</div>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
       <span className="navbar-toggler-icon"></span>
       </button>

@@ -128,7 +128,7 @@ fetchNews()
 return axios
 	({
 		method:'get',
-		url:config.apiGateway+'/api_broker/getNews',
+		url:config.apiGateway+'/api_broker/get_news',
 		headers: {'Access-Control-Allow-Origin': '*'
 	}
 	// 'Authorization': 'Bearer '+accesstoken }
