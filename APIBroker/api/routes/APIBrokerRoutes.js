@@ -18,5 +18,6 @@ module.exports = function(app) {
   app.route('/getRecommendedTracks')
   .post(spotifyAuth.get_recommended_track)
   
-    
+    app.route('/getNews')
+  .get(spotifyAuth.get_news)
 };
