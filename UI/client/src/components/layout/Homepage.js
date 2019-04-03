@@ -19,6 +19,7 @@ class Homepage extends Component
 		isSearchResultsVisible: false,
 		isRecommendationsVisible: false,
 		songCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
+		newsCardStyle:{marginBottom: 18, width: 200, height: 150, marginRight: 18, display: 'inline-block'},
 		moodArray: [
 		{
 			moodName:"Good",
@@ -66,6 +67,11 @@ class Homepage extends Component
 componentWillMount(){
 	if(!sessionStorage.getItem('jwt') || !sessionStorage.getItem('name')){
 		window.location.href = "/login";
+	}
+	else
+	{
+	this.fetchNews();
+	this.getRecommendedValence(); // Used for getting recommendations
 	}
 }
 
