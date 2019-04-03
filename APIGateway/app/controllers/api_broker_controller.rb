@@ -3,6 +3,20 @@ class ApiBrokerController < ApplicationController
   #Heloper to offload the logic from controller
   include ApiBrokerHelper
 
+  def get_news
+    begin
+      res = get_news_helper(api_broker_uri)
+      if(res.code.include? "200")
+        render :json => res.body, :status => 200
+      else
+        render :json => res.body, :status => 500
+      end
+    rescue => e
+      p e
+      render :json => {:error=>'Something went wrong'}, :status => 500
+    end
+  end
+
   def get_auth
     begin
       res = get_auth_helper(api_broker_uri)
