@@ -563,7 +563,7 @@ render()
 				newsDiv = <div name="news">
 		<div className="newsView">
 		<div className="newsTitle ">
-				<h3 style={{color:"white"}}>Here are Today&amps Headlines</h3><br />
+				<h3 style={{color:"white"}}>Here are Today's Headlines</h3><br />
 		</div>
 		</div>
 		{
