@@ -19,7 +19,7 @@ class Homepage extends Component
 		isSearchResultsVisible: false,
 		isRecommendationsVisible: false,
 		songCardStyle: {marginBottom: 18, width: 150, height: 150, marginRight: 18, display: 'inline-block'},
-		newsCardStyle:{marginBottom: 18, width: 200, height: 150, marginRight: 18, display: 'inline-block'},
+		newsCardStyle:{marginBottom: 18, width: 350, height: 150, marginRight: 18, display: 'inline-block'},
 		moodArray: [
 		{
 			moodName:"Good",
