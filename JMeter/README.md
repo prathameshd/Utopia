@@ -7,7 +7,7 @@ Graph of Throughput and Avg: Graph <br />
 <br />
 
 ### File name format <br />
-<Prefix>-<Number of requests>-<Replica Count>.png
+`<Prefix>-<Number of requests>-<Replica Count>.png`
 
 
 
