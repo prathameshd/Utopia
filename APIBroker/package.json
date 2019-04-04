@@ -1,0 +1,30 @@
+{
+  "name": "testNodeJS",
+  "version": "0.1.0",
+  "description": "testNodeJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "node.js",
+    "eclipse",
+    "nodeclipse"
+  ],
+  "author": "",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "eclipse": "^2.0.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.13",
+    "node-zookeeper-client": "^0.2.3",
+    "public-ip": "^3.0.0",
+    "sentiment": "^5.0.1"
+  }
+}

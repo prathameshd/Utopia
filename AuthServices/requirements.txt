@@ -1,0 +1,10 @@
+flask
+PyJwt
+jsonpickle
+dnspython
+pymongo
+flask-cors
+passlib
+kazoo
+requests
+pika
