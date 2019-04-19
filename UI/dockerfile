@@ -1,7 +1,7 @@
-FROM node
+FROM n0485/ui:latest
+RUN rm -rf UI
 RUN mkdir UI
 COPY . /UI
-RUN cd UI && npm install
 WORKDIR /UI
 EXPOSE 3000
 CMD ["npm", "run", "client"]
