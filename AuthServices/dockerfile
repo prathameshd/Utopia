@@ -1,7 +1,7 @@
 FROM holbertonschool/ubuntu-1404-python3
 RUN mkdir AuthServices
 COPY . /AuthServices
-RUN cd AuthServices/ && pip3 install --upgrade pip && pip3 install -r requirements.txt --allow-unverified
+RUN cd AuthServices/ && pip3 install --upgrade -v pip && pip3 install -r requirements.txt --allow-unverified
 WORKDIR AuthServices
 EXPOSE 5000
 CMD ["python3", "-m", "Controllers.user_controller"]
