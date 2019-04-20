@@ -1,5 +1,5 @@
 FROM n0485/apibroker:latest
-RUN rm -rf APIBroker
+RUN cd .. && rm -rf APIBroker
 RUN mkdir APIBroker
 COPY . /APIBroker
 WORKDIR APIBroker
