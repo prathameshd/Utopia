@@ -4,16 +4,16 @@ var utils = require("../utils");
 var Sentiment = require('sentiment');
 
 exports.get_auth = function(req, res) {
-	
+
 	// Gets token from auth header and decodes it for the user_id
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
-	
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("error", "Invalid Token: Check Authorization header!"));
 	}
-	
+
 	else{
 		axios({
 			method:'get',
@@ -22,7 +22,7 @@ exports.get_auth = function(req, res) {
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
 			res.json(utils.custom_JSON_formatter('success',url))
-			
+
 		}).catch((err)=>{
 			res.status(400).json(utils.custom_JSON_formatter('error',err))
 		});
@@ -30,28 +30,28 @@ exports.get_auth = function(req, res) {
 };
 
 exports.get_access = function(req, res) {
-	
+
 	// Gets token from auth header and decodes it for the user_id
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
-	
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("error", "Invalid Token: Check Authorization header!"));
 	}
-	
+
 	else{
 		var codeCode=req["body"]["codeCode"];		//this is the code extracted from URL and sent by react
-		
+
 		var bodyParams={							//request body parameters
 				grant_type:"authorization_code",
 				code:codeCode,
-				redirect_uri:'http://149.165.171.8:30007/home'
+				redirect_uri:'http://149.165.170.244:80/home'
 				};
-		
+
 		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
 		var codedKeys=Buffer.from(keys).toString('base64');								//base64 encoded keys
-	
+
 			axios({
 			method:'post',
 			url: 'https://accounts.spotify.com/api/token',
@@ -59,11 +59,11 @@ exports.get_access = function(req, res) {
 			headers: {'Access-Control-Allow-Origin': '*',								//ref:Sporify Authorization Guide(step2)
 					'Authorization': 'Basic '+codedKeys,
 					'Content-Type':'application/x-www-form-urlencoded' }
-			
+
 			}).then((response)=>{
 				var accessToken=response["data"]["access_token"]
 				res.json(utils.custom_JSON_formatter('success',accessToken))
-				
+
 			}).catch((err)=>{
 				res.status(400).json(utils.custom_JSON_formatter('error',err))
 			});
@@ -71,11 +71,11 @@ exports.get_access = function(req, res) {
 };
 
 exports.search_song = function(req, res) {
-	
+
 	// Gets token from auth header and decodes it for the user_id
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
-	
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("error", "Invalid token: Check Authorization header!"));
@@ -93,7 +93,7 @@ exports.search_song = function(req, res) {
 					'Authorization':'Bearer '+accessToken,
 					'Content-Type':'application/x-www-form-urlencoded'
 				}
-			
+
 			})
 		.then((response)=>
 			{
@@ -104,14 +104,14 @@ exports.search_song = function(req, res) {
 	} //else ends
 }
 
-// Function that fetches valence value 
+// Function that fetches valence value
 // for given song
 exports.get_valence = function(req, res) {
-	
+
 	// Gets token from auth header and decodes it for the user_id
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
-	
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("error", "Invalid token: Check Authorization header!"));
@@ -128,7 +128,7 @@ exports.get_valence = function(req, res) {
 					'Access-Control-Allow-Headers': '*',
 					'Authorization':'Bearer '+ accessToken
 				}
-			
+
 			})
 		.then((response)=>
 			{
@@ -146,7 +146,7 @@ exports.get_recommended_track = function(req, res){
 	// Gets token from auth header and decodes it for the user_id
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
-	
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("error", "Invalid token: Check Authorization header!"));
@@ -163,7 +163,7 @@ exports.get_recommended_track = function(req, res){
 					'Access-Control-Allow-Headers': '*',
 					'Authorization':'Bearer '+ accessToken
 				}
-			
+
 			})
 		.then((response)=>
 			{
