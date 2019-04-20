@@ -1,5 +1,5 @@
 FROM n0485/auth:latest
-RUN cd .. && rm -rf AuthServices
+RUN cd && rm -rf AuthServices
 RUN mkdir AuthServices
 COPY . /AuthServices
 WORKDIR AuthServices

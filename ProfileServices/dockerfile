@@ -1,5 +1,5 @@
 FROM n0485/profile:latest
-RUN cd .. && rm -rf ProfileServices
+RUN cd && rm -rf ProfileServices
 RUN mkdir ProfileServices
 COPY . /ProfileServices
 WORKDIR ProfileServices
