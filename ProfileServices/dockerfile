@@ -1,7 +1,7 @@
-FROM n0485/profile:latest
-RUN cd && rm -rf ProfileServices
+FROM node
 RUN mkdir ProfileServices
 COPY . /ProfileServices
+RUN cd ProfileServices/ && npm install && npm install mongodb
 WORKDIR ProfileServices
 EXPOSE 3001
 CMD ["node", "server.js"]

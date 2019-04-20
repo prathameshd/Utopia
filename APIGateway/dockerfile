@@ -1,7 +1,8 @@
-FROM n0485/apigateway:latest
-RUN rm -rf APIGateway
+FROM ruby:2.6.0
 RUN mkdir APIGateway
 COPY . /APIGateway
+RUN cd APIGateway/ &&\
+    bundle install
 WORKDIR APIGateway/
 EXPOSE 3003
 CMD ["rails", "s", "-b", "0.0.0.0", "-p", "3003"]

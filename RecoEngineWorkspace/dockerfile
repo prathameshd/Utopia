@@ -1,9 +1,10 @@
-FROM n0485/recoengine:latest
-RUN rm -rf RecoEngineWorkspace
+FROM golang
 RUN mkdir RecoEngineWorkspace
 COPY . RecoEngineWorkspace/
 RUN cd RecoEngineWorkspace/ &&\
     export GOPATH=$GOPATH:/go/RecoEngineWorkspace/ &&\
+    go get github.com/gorilla/mux &&\
+    go get github.com/samuel/go-zookeeper/zk &&\
     cd src/RecommendationEngine/ &&\
     go build &&\
     cd ../../ &&\
