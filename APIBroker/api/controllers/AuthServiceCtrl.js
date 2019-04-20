@@ -17,7 +17,7 @@ exports.get_auth = function(req, res) {
 	else{
 		axios({
 			method:'get',
-			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F149.165.171.8:30007/home',
+			url: 'https://accounts.spotify.com/en/authorize?client_id=ff30334df8504b849b0fddebe2662ab0&response_type=code&redirect_uri=http:%2F%2F149.165.170.244:80/home',
 		}).then((response)=>{
 			console.log("Successfully Authorized with SPOTIFY !!!!!!!")
 			var url = response["request"]["res"]["responseUrl"]
