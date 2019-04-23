@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {ToastContainer, ToastStore} from 'react-toasts'
+import FacebookLogin from 'react-facebook-login';
+
 var config = require('../../config');
 
 class Login extends Component {
@@ -100,6 +102,62 @@ class Login extends Component {
       })
     }
 
+
+
+tryToLogin = (email) =>{
+    axios({
+      method:'get',
+      url:config.apiBrokerHost+'/checkUser/email/'+email,
+      headers: {'Access-Control-Allow-Origin': '*'}
+    })
+    .then( (response) => {
+      sessionStorage.setItem('facebookToken',response.data['token'])
+      //sessionStorage.setItem('user_role',response.data['role_id'])
+      sessionStorage.setItem('user_id',response.data['user_id'])
+      sessionStorage.setItem('user_first_name', response.data['first_name'])
+      //this.setState({loginSuccess: true});
+    }).catch((error)=>{
+     // this.setState({promptRole: true});
+    })
+  }
+
+  responseFacebook = (response) => {
+    if(response){
+      console.log(response.name)
+      // this.setState({firstName: response.name, newEmail:response.email, fbAccessToken: response.accessToken},
+      // ()=>{
+      //     this.tryToLogin(response.email);
+      // });
+    }
+  }
+
+  sendFBData =() => {
+    const registrationData = {
+          firstName: this.state.firstName,
+          email: this.state.newEmail,
+          accessToken: this.state.fbAccessToken,
+          role: this.state.selectedRadioValue,
+          type: this.state.type
+        }
+    axios({
+      method:'post',
+      url:'http://course360.herokuapp.com/registerFbUser',
+      data: registrationData,
+      headers: {'Access-Control-Allow-Origin': '*'},
+    })
+    .then( (response) => {
+      sessionStorage.setItem('token',response.data['token'])
+      sessionStorage.setItem('user_role',response.data['role_id'])
+      sessionStorage.setItem('user_id',response.data['user_id'])
+      sessionStorage.setItem('user_first_name', response.data['first_name'])
+      this.setState({loginSuccess: true});
+    });
+  }
+
+
+
+
+
     render(){
       return(
         <div className="login" style={{paddingBottom:200}}>
@@ -116,11 +174,18 @@ class Login extends Component {
         <input type="password" className="form-control form-control-lg" placeholder="Password" name="password" value={this.state.password} onChange={this.onChange} />
         </div>
         <input type="submit" onClick={this.callLogin} className="btn btn-info btn-block mt-4" />
+
+        <FacebookLogin
+                  appId="867682386905565"
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  callback={(response)=>this.responseFacebook(response)} />
         </form>
         </div>
         </div>
         </div>
         <ToastContainer position={ToastContainer.POSITION.BOTTOM_RIGHT} store={ToastStore}/>
+                
         </div>
       );
     }
