@@ -82,7 +82,12 @@ class Service:
 				user = collection.find(search_user)
 				crypto = Crypto()
 				if(user):
-						return None;
+					if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
+						#user_obj.first_name = user[0]['firstName']
+						#user_obj.last_name = user[0]['lastName']
+						#user_obj.user_id = str(user[0]['_id'])
+						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+						return user_obj
 
 				else:
 					user_obj['email']=data['email']
