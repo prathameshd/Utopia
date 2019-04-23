@@ -77,23 +77,29 @@ class Service:
 			mongo_config = MongoConfig()
 			collection = mongo_config.db()
 			if(collection):
+				
 				user_obj = User()
-				search_user = {'email': data['email']}
+				search_user = {'email': data['email']}				
 				user = collection.find(search_user)
+				print(len(list(user)), "find user")
 				crypto = Crypto()
-				if(user):
-					if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
+				print(user!=None)
+				if(user!=None):
+					#if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
 						#user_obj.first_name = user[0]['firstName']
 						#user_obj.last_name = user[0]['lastName']
 						#user_obj.user_id = str(user[0]['_id'])
-						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+						print("inside")
+						user_obj.token = (Jwt.encode_auth_token(user_id=user[0]['_id'])).decode()
 						return user_obj
 
 				else:
-					user_obj['email']=data['email']
-					saved_user = collection.insert_one(user_obj)
-					#user = User()
-					user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+					print("User does not exist", data)
+					
+					saved_user = collection.insert_one(data)
+					user_obj = User()
+					user_obj.first_name = data['firstName']
+					user_obj.token = (Jwt.encode_auth_token(user_id=user[0]['_id'])).decode()
 					user_obj.user_id = str(saved_user.inserted_id)
 					return user_obj
 					

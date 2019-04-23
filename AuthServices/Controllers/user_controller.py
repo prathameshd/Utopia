@@ -11,7 +11,7 @@ from Services.jwt import Jwt
 from Services.service import Service
 
 #in order to access any images
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_url_path='/static') 
 app.config.from_object(__name__)
 
 # Below is to enable requests from other domains i.e, enable React to access these APIs
@@ -50,6 +50,7 @@ def check():
 @app.route("/checkUser", methods=['GET'])
 def check_user():
 	data=request.json
+	print("CTRL==>", data)
 	try:
 		service = Service()
 		response = service.check_user(data)

@@ -104,17 +104,15 @@ class Login extends Component {
 
 
 
-tryToLogin = (email) =>{
+tryToLogin = (res) =>{
     axios({
       method:'get',
-      url:config.apiBrokerHost+'/checkUser/email/'+email,
+      url:config.authHost+'/checkUser',
+      data:{'email':res["email"], 'firstName': res["name"] },
       headers: {'Access-Control-Allow-Origin': '*'}
     })
     .then( (response) => {
-      sessionStorage.setItem('facebookToken',response.data['token'])
-      //sessionStorage.setItem('user_role',response.data['role_id'])
-      sessionStorage.setItem('user_id',response.data['user_id'])
-      sessionStorage.setItem('user_first_name', response.data['first_name'])
+     console.log('login successful')
       //this.setState({loginSuccess: true});
     }).catch((error)=>{
      // this.setState({promptRole: true});
@@ -123,11 +121,13 @@ tryToLogin = (email) =>{
 
   responseFacebook = (response) => {
     if(response){
-      console.log(response.name)
-      // this.setState({firstName: response.name, newEmail:response.email, fbAccessToken: response.accessToken},
-      // ()=>{
-      //     this.tryToLogin(response.email);
-      // });
+       sessionStorage.setItem('jwt',response['accessToken'])
+      sessionStorage.setItem('name', response['name'])
+      console.log(response)
+      this.tryToLogin(response)
+       //this.setState({firstName: response.name, newEmail:response.email, fbAccessToken: response.accessToken},
+       //()=>{      this.tryToLogin(response);
+       //});
     }
   }
 
