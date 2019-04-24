@@ -105,14 +105,21 @@ class Login extends Component {
 
 
 tryToLogin = (res) =>{
+    console.log("TRY TO ",res)
     axios({
-      method:'get',
+      method:'post',
       url:config.authHost+'/checkUser',
       data:{'email':res["email"], 'firstName': res["name"] },
       headers: {'Access-Control-Allow-Origin': '*'}
     })
     .then( (response) => {
      console.log('login successful')
+
+      sessionStorage.setItem("jwt", response.data.token);
+        sessionStorage.setItem("name", response.data.first_name);
+        this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
+        ToastStore.success("Logging In to Utopia");
+     
       //this.setState({loginSuccess: true});
     }).catch((error)=>{
      // this.setState({promptRole: true});

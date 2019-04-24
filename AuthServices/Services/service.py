@@ -45,6 +45,7 @@ class Service:
 
 	# Service method to generate a JWT and provide to user
 	def login(self, data):
+		print("Saadha login")
 		try:
 			mongo_config = MongoConfig()
 			collection = mongo_config.db()
@@ -58,6 +59,7 @@ class Service:
 						user_obj.first_name = user[0]['firstName']
 						#user_obj.last_name = user[0]['lastName']
 						user_obj.user_id = str(user[0]['_id'])
+						print("NORMAL WAY===", user[0]['_id'])
 						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
 						return user_obj
 					else:
@@ -74,6 +76,7 @@ class Service:
 	# Service method to check if user exists and intert into collection
 	def check_user(self, data):
 		try:
+			print("INSIDE SERVICE",data)
 			mongo_config = MongoConfig()
 			collection = mongo_config.db()
 			if(collection):
@@ -82,15 +85,17 @@ class Service:
 				search_user = {'email': data['email']}				
 				user = collection.find(search_user)
 				print(len(list(user)), "find user")
+				#print("OTHER WAY===", user)
 				crypto = Crypto()
 				print(user!=None)
-				if(user!=None):
+				if(user.count()>0):
 					#if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
 						#user_obj.first_name = user[0]['firstName']
 						#user_obj.last_name = user[0]['lastName']
 						#user_obj.user_id = str(user[0]['_id'])
 						print("inside")
-						user_obj.token = (Jwt.encode_auth_token(user_id=user[0]['_id'])).decode()
+						user_obj.token = (Jwt.encode_auth_token('abcdef')).decode()
+						print("token-->",user_obj.token)
 						return user_obj
 
 				else:
@@ -99,7 +104,8 @@ class Service:
 					saved_user = collection.insert_one(data)
 					user_obj = User()
 					user_obj.first_name = data['firstName']
-					user_obj.token = (Jwt.encode_auth_token(user_id=user[0]['_id'])).decode()
+
+					user_obj.token = (Jwt.encode_auth_token('abcdef')).decode()
 					user_obj.user_id = str(saved_user.inserted_id)
 					return user_obj
 					

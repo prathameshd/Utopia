@@ -47,7 +47,7 @@ def check():
 		return jsonify(e), 500
 
 # function to add user from facebook
-@app.route("/checkUser", methods=['GET'])
+@app.route("/checkUser", methods=['POST'])
 def check_user():
 	data=request.json
 	print("CTRL==>", data)
