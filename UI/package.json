@@ -30,7 +30,8 @@
     "react-toasts": "^2.0.14",
     "reactstrap": "^7.1.0",
     "socket.io": "~0.9.14",
-    "validator": "^10.11.0"
+    "validator": "^10.11.0",
+    "react-facebook-login": "latest"
   },
   "scripts": {
     "client-install": "npm install --prefix client",

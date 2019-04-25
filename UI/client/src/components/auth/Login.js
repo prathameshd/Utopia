@@ -87,8 +87,8 @@ class Login extends Component {
       if(response.status == 200)
       {
         console.log(response)
-		
-		
+
+
 		//updating redirectURL
 
 		console.log("updated redirect URL",response.data.data);
@@ -112,7 +112,7 @@ class Login extends Component {
     console.log("TRY TO ",res)
     axios({
       method:'post',
-      url:config.authHost+'/checkUser',
+      url:config.apiGateway+'/auth/checkUser',
       data:{'email':res["email"], 'firstName': res["name"] },
       headers: {'Access-Control-Allow-Origin': '*'}
     })
@@ -123,7 +123,7 @@ class Login extends Component {
         sessionStorage.setItem("name", response.data.first_name);
         this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
         ToastStore.success("Logging In to Utopia");
-     
+
       //this.setState({loginSuccess: true});
     }).catch((error)=>{
      // this.setState({promptRole: true});

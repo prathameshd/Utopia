@@ -48,7 +48,7 @@ module AuthServiceHelper
       host_details = zookeeper_helper(url)
       host = host_details["host"]
       port = host_details["port"].to_s
-      uri = URI('http://'+host+':'+port+'/register')
+      uri = URI('http://'+host+':'+port+'/checkUser')
       http = Net::HTTP.new(host, port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
         'Authorization' => request.headers[:Authorization]})
@@ -65,7 +65,7 @@ module AuthServiceHelper
     # z = Zookeeper.new("149.165.170.7:2181")
     # host_details= z.get(:path => url)
     # host_details=JSON.parse(host_details[:data])
-    host_details={"host"=>ENV["AUTH_SERVICE_PORT_5000_TCP_ADDR"], "port"=>ENV["AUTH_SERVICE_PORT_5000_TCP_PORT"]}
+    host_details={"host"=>"localhost", "port"=>5000}
     host_details
   end
 
