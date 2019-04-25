@@ -48,7 +48,6 @@ exports.get_access = function(req, res) {
 				code:codeCode,
 				redirect_uri:'http://js-170-244.jetstream-cloud.org/home'
 				};
-
 		var keys='ff30334df8504b849b0fddebe2662ab0:e6cd63426b70498d8d07339e460015f1'; //client_id:client_secret
 		var codedKeys=Buffer.from(keys).toString('base64');								//base64 encoded keys
 
