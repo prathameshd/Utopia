@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {ToastContainer, ToastStore} from 'react-toasts'
+import FacebookLogin from 'react-facebook-login';
+
 var config = require('../../config');
 
 class Login extends Component {
@@ -85,8 +87,8 @@ class Login extends Component {
       if(response.status == 200)
       {
         console.log(response)
-		
-		
+
+
 		//updating redirectURL
 
 		console.log("updated redirect URL",response.data.data);
@@ -104,6 +106,49 @@ class Login extends Component {
       })
     }
 
+
+
+    tryToLogin = (res) =>{
+    console.log("TRY TO ",res)
+    axios({
+      method:'post',
+      url:config.apiGateway+'/auth/checkUser',
+      data:{'email':res["email"], 'firstName': res["name"] },
+      headers: {'Access-Control-Allow-Origin': '*'}
+    })
+    .then( (response) => {
+     console.log('login successful')
+
+      sessionStorage.setItem("jwt", response.data.token);
+        sessionStorage.setItem("name", response.data.first_name);
+        this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
+        ToastStore.success("Logging In to Utopia");
+
+      //this.setState({loginSuccess: true});
+    }).catch((error)=>{
+     // this.setState({promptRole: true});
+    })
+  }
+
+  responseFacebook = (response) => {
+    if(response){
+       sessionStorage.setItem('jwt',response['accessToken'])
+      sessionStorage.setItem('name', response['name'])
+      console.log(response)
+      this.tryToLogin(response)
+       //this.setState({firstName: response.name, newEmail:response.email, fbAccessToken: response.accessToken},
+       //()=>{      this.tryToLogin(response);
+       //});
+    }
+  }
+
+
+
+
+
+
+
+
     render(){
       return(
         <div className="login" style={{paddingBottom:200}}>
@@ -120,6 +165,11 @@ class Login extends Component {
         <input type="password" className="form-control form-control-lg" placeholder="Password" name="password" value={this.state.password} onChange={this.onChange} />
         </div>
         <input type="submit" onClick={this.callLogin} className="btn btn-info btn-block mt-4" />
+                <FacebookLogin
+                  appId="867682386905565"
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  callback={(response)=>this.responseFacebook(response)} />
         </form>
         </div>
         </div>
