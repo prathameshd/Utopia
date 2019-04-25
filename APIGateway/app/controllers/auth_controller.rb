@@ -34,6 +34,21 @@ class AuthController < ApplicationController
     end
   end
 
+  # controller for oauth method
+  def checkUser
+    begin
+      res = checkUser_helper(auth_uri, auth_params)
+      if(res.code.include? "200")
+        render :json => res.body, :status => 200
+      else
+        render :json => res.body, :status => 500
+      end
+    rescue => e
+      render :json => {:error=>'Something went wrong'}, :status => 500
+    end
+  end
+  
+
   # Private methods
   private
   # Method to extract data from post request
