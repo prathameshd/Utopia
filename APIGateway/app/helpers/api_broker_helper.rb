@@ -4,6 +4,22 @@ require 'json'
 # Helper module to maintain logic to access the APIBroker
 module ApiBrokerHelper
 
+  # Get News helper, used to call the /get_news_helper present in APIBroker
+  def get_news_helper(url)
+    begin
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
+      uri = URI('http://'+host+':'+port+'/getNews')
+      http = Net::HTTP.new(host, port)
+      req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',
+        'Authorization' => request.headers[:Authorization]})
+      http.request(req)
+    rescue => e
+      raise e
+    end
+  end
+
   # Get Auth helper, used to call the /get_auth_helper present in APIBroker
   def get_auth_helper(url)
     begin
@@ -108,9 +124,10 @@ module ApiBrokerHelper
 
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("149.165.170.7:2181")
-    host_details= z.get(:path => url)
-    host_details=JSON.parse(host_details[:data])
+    # z = Zookeeper.new("149.165.170.7:2181")
+    # host_details= z.get(:path => url)
+    # host_details=JSON.parse(host_details[:data])
+    host_details={"host"=>ENV["APIBROKER_SERVICE_PORT_3002_TCP_ADDR"], "port"=>ENV["APIBROKER_SERVICE_PORT_3002_TCP_PORT"]}
     host_details
   end
 

@@ -48,10 +48,25 @@ def check():
 	except Exception as e:
 		return jsonify(e), 500
 
+# function to add user from facebook
+@app.route("/checkUser", methods=['POST'])
+def check_user():
+	data=request.json
+	print("CTRL==>", data)
+	try:
+		service = Service()
+		response = service.check_user(data)
+		if isinstance(response, User):
+			return jsonpickle.encode(response, unpicklable=False), 200
+		else:
+			return jsonify({'Error': response}), 500
+	except Exception as e:
+		return jsonify(e), 500
+		
 #The application starts running from here
 if __name__ == '__main__':
 	try:
-		ZookeeperHandler.registerAuthService(5000)
+		#ZookeeperHandler.registerAuthService(5000)
 		email_queue = EmailQueue()
 		email_queue.receiver()
 	except Exception as e:

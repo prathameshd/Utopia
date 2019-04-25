@@ -45,8 +45,8 @@ var routes = require('./api/routes/userMgmtServiceRoutes');
 routes(app);
 
 // ZooKeeper Service registration
-var zookeeper = require('node-zookeeper-client');
-var client = zookeeper.createClient('149.165.170.7:2181');
+// var zookeeper = require('node-zookeeper-client');
+//var client = zookeeper.createClient('149.165.170.7:2181');
 var path = "/ProfileServices";
 
 //get dynamic IP
@@ -78,4 +78,4 @@ client.connect();
 
   }
 var temp;
-temp=dynamicAddress();
+//temp=dynamicAddress();

@@ -1,0 +1,7 @@
+FROM node
+RUN mkdir UI
+COPY . /UI
+RUN cd UI && npm install && npm install react-google-login && npm install react-facebook-login
+WORKDIR /UI
+EXPOSE 3000
+CMD ["npm", "run", "client"]

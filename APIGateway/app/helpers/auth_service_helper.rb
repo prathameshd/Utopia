@@ -41,11 +41,31 @@ module AuthServiceHelper
     end
   end
 
+
+  # Registeration helper, used to call the /register present in AuthServices
+  def checkUser_helper(url, auth_params)
+    begin
+      host_details = zookeeper_helper(url)
+      host = host_details["host"]
+      port = host_details["port"].to_s
+      uri = URI('http://'+host+':'+port+'/checkUser')
+      http = Net::HTTP.new(host, port)
+      req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json',
+        'Authorization' => request.headers[:Authorization]})
+      req.body = {"email" => auth_params['email'], "firstName" => auth_params['firstName']}.to_json
+      http.request(req)
+    rescue => e
+      raise e
+    end
+  end
+
+
   # Zookeeper handler to retrieve the auth services host and port
   def zookeeper_helper(url)
-    z = Zookeeper.new("149.165.170.7:2181")
-    host_details= z.get(:path => url)
-    host_details=JSON.parse(host_details[:data])
+    # z = Zookeeper.new("149.165.170.7:2181")
+    # host_details= z.get(:path => url)
+    # host_details=JSON.parse(host_details[:data])
+    host_details={"host"=>ENV["AUTH_SERVICE_PORT_5000_TCP_ADDR"], "port"=>ENV["AUTH_SERVICE_PORT_5000_TCP_PORT"]}
     host_details
   end
 

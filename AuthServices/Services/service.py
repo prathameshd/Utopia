@@ -1,7 +1,7 @@
 #Importing pre-defined modules
 import jwt
 import re
-
+import jsonpickle
 #Importing Services
 from Services.mongo_config import MongoConfig
 from Services.crypto import Crypto
@@ -83,6 +83,42 @@ class Service:
 						return "Invalid Credentials"
 				else:
 					return "User not available"
+			else:
+				return "Unable to connect to database"
+		except IndexError as IE:
+			return "User not available"
+		except Exception as e:
+			raise e
+
+
+# Service method to check if user exists and intert into collection
+	def check_user(self, data):
+		try:
+			print("INSIDE SERVICE",data)
+			mongo_config = MongoConfig()
+			collection = mongo_config.db()
+			if(collection):
+
+				user_obj = User()
+				search_user = {'email': data['email']}
+				user = collection.find(search_user)
+				crypto = Crypto()
+				if(user.count()>0):
+						user = collection.find(search_user)
+						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+						user = collection.find(search_user)
+						user_obj.user_id = str(user[0]['_id'])
+						return user_obj
+
+				else:
+					saved_user = collection.insert_one(data)
+					user_obj = User()
+					user_obj.first_name = data['firstName']
+					user = collection.find(search_user)
+					user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+					user = collection.find(search_user)
+					user_obj.user_id = str(user[0]['_id'])
+					return user_obj
 			else:
 				return "Unable to connect to database"
 		except IndexError as IE:
