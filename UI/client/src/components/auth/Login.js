@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {ToastContainer, ToastStore} from 'react-toasts'
 import FacebookLogin from 'react-facebook-login';
-
+import GoogleLogin from 'react-google-login';
 var config = require('../../config');
 
 class Login extends Component {
@@ -143,6 +143,40 @@ class Login extends Component {
   }
 
 
+  tryToGoogleLogin = (res) =>{
+  console.log("TRY TO ",res)
+  axios({
+    method:'post',
+    url:config.apiGateway+'/auth/checkUser',
+    data:{'email':res["w3"]["U3"], 'firstName': res["w3"]["ig"] },
+    headers: {'Access-Control-Allow-Origin': '*'}
+  })
+  .then( (response) => {
+   console.log('login successful')
+
+    sessionStorage.setItem("jwt", response.data.token);
+      sessionStorage.setItem("name", response.data.first_name);
+      this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
+      ToastStore.success("Logging In to Utopia");
+
+    //this.setState({loginSuccess: true});
+  }).catch((error)=>{
+   // this.setState({promptRole: true});
+  })
+}
+
+  responseGoogle = (response) => {
+    console.log(response);
+    if(response){
+       sessionStorage.setItem('jwt',response['accessToken'])
+      sessionStorage.setItem('name', response['w3']['ig'])
+      console.log(response)
+      this.tryToGoogleLogin(response)
+       //this.setState({firstName: response.name, newEmail:response.email, fbAccessToken: response.accessToken},
+       //()=>{      this.tryToLogin(response);
+       //});
+    }
+  }
 
 
 
@@ -170,6 +204,14 @@ class Login extends Component {
                   autoLoad={false}
                   fields="name,email,picture"
                   callback={(response)=>this.responseFacebook(response)} />
+
+                  <GoogleLogin
+                    clientId="722327594409-hh0pobkmlnqqpnrm9m8nrni7fsfhrcqm.apps.googleusercontent.com"
+                    buttonText="Login with Google"
+                    onSuccess={this.responseGoogle}
+                    onFailure={this.esponseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                  />
         </form>
         </div>
         </div>
