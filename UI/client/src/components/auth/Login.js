@@ -208,7 +208,7 @@ class Login extends Component {
         <div style={{marginTop:16, alignCenter: 'center'}} className="text-center">
           <GoogleLogin
             clientId="722327594409-hh0pobkmlnqqpnrm9m8nrni7fsfhrcqm.apps.googleusercontent.com"
-            buttonText="Login with Google"
+            buttonText="Google Login"
             onSuccess={this.responseGoogle}
             onFailure={this.responseGoogle}
             cookiePolicy={'single_host_origin'}
