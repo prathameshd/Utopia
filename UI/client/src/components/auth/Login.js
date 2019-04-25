@@ -155,7 +155,7 @@ class Login extends Component {
    console.log('login successful')
 
     sessionStorage.setItem("jwt", response.data.token);
-      sessionStorage.setItem("name", response.data.first_name);
+      sessionStorage.setItem("name", res['w3']['ig']);
       this.setState({jwt:response.data.token}, this.authorizeSpotify);   // sets jwt to state & calls next fn
       ToastStore.success("Logging In to Utopia");
 
@@ -179,7 +179,13 @@ class Login extends Component {
   }
 
 
-
+  /*
+  <FacebookLogin
+    appId="867682386905565"
+    autoLoad={false}
+    fields="name,email,picture"
+    callback={(response)=>this.responseFacebook(response)} />
+  */
 
 
 
@@ -199,19 +205,15 @@ class Login extends Component {
         <input type="password" className="form-control form-control-lg" placeholder="Password" name="password" value={this.state.password} onChange={this.onChange} />
         </div>
         <input type="submit" onClick={this.callLogin} className="btn btn-info btn-block mt-4" />
-                <FacebookLogin
-                  appId="867682386905565"
-                  autoLoad={false}
-                  fields="name,email,picture"
-                  callback={(response)=>this.responseFacebook(response)} />
-
-                  <GoogleLogin
-                    clientId="722327594409-hh0pobkmlnqqpnrm9m8nrni7fsfhrcqm.apps.googleusercontent.com"
-                    buttonText="Login with Google"
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.esponseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                  />
+        <div style={{marginTop:16, alignCenter: 'center'}} className="text-center">
+          <GoogleLogin
+            clientId="722327594409-hh0pobkmlnqqpnrm9m8nrni7fsfhrcqm.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={this.responseGoogle}
+            onFailure={this.responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
+        </div>
         </form>
         </div>
         </div>
