@@ -1,7 +1,7 @@
 #Importing pre-defined modules
 import jwt
 import re
-
+import jsonpickle
 #Importing Services
 from Services.mongo_config import MongoConfig
 from Services.crypto import Crypto
@@ -98,43 +98,27 @@ class Service:
 			mongo_config = MongoConfig()
 			collection = mongo_config.db()
 			if(collection):
-				
+
 				user_obj = User()
-				search_user = {'email': data['email']}				
+				search_user = {'email': data['email']}
 				user = collection.find(search_user)
-				print(len(list(user)), "find user")
-				#print("OTHER WAY===", user)
 				crypto = Crypto()
-				print(user!=None)
 				if(user.count()>0):
-					#if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
-						#user_obj.first_name = user[0]['firstName']
-						#user_obj.last_name = user[0]['lastName']
-						#user_obj.user_id = str(user[0]['_id'])
-						print("inside")
-						user_obj.token = (Jwt.encode_auth_token('abcdef')).decode()
-						print("token-->",user_obj.token)
+						user = collection.find(search_user)
+						user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+						user = collection.find(search_user)
+						user_obj.user_id = str(user[0]['_id'])
 						return user_obj
 
 				else:
-					print("User does not exist", data)
-					
 					saved_user = collection.insert_one(data)
 					user_obj = User()
 					user_obj.first_name = data['firstName']
-
-					user_obj.token = (Jwt.encode_auth_token('abcdef')).decode()
-					user_obj.user_id = str(saved_user.inserted_id)
+					user = collection.find(search_user)
+					user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
+					user = collection.find(search_user)
+					user_obj.user_id = str(user[0]['_id'])
 					return user_obj
-					
-					# if(crypto.verify_decrypted_string(data['password'], user[0]['password'])):
-					# 	user_obj.first_name = user[0]['firstName']
-					# 	#user_obj.last_name = user[0]['lastName']
-					# 	user_obj.user_id = str(user[0]['_id'])
-					# 	user_obj.token = Jwt.encode_auth_token(user_id=user[0]['_id']).decode()
-					# 	return user_obj
-					# else:
-					# 	return "Invalid Credentials"						
 			else:
 				return "Unable to connect to database"
 		except IndexError as IE:
