@@ -10,7 +10,7 @@ class RegistrationTest(unittest.TestCase):
     # Test whether the register is working with positive scenario
     def test_registration_with_positive_scenarios(self):
         service = Service()
-        response = service.register({"email":"jhon@gmail.com",
+        response = service.register({"email":"sairohith.achanta@gmail.com",
         "password":"password", "firstName":"Jhon", "lastName":"Smith", "confirmPassword":"password",
         "dob":"11/02/1994"})
         assert isinstance(response, object)
@@ -19,7 +19,7 @@ class RegistrationTest(unittest.TestCase):
     # Test whether returns a specific string if a user provides different paswords
     def test_registration_with_mismatch_password(self):
         service = Service()
-        response = service.register({"email":"jhon@gmail.com",
+        response = service.register({"email":"sairohith.achanta@gmail.com",
         "password":"password", "firstName":"Jhon", "lastName":"Smith", "confirmPassword":"confirmpassword",
         "dob":"11/02/1994"})
         assert isinstance(response, str)
