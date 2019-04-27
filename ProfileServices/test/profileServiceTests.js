@@ -1,4 +1,3 @@
-let Book = require('../api/controllers/userMgmtServiceCtrl');
 
 //Require the dev-dependencies
 let chai = require('chai');
