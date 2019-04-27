@@ -1,7 +1,7 @@
 FROM node
 RUN mkdir APIBroker
 COPY . /APIBroker
-RUN cd APIBroker && npm install && npm install mongodb
+RUN cd APIBroker && npm install && npm install mongodb && npm test
 WORKDIR APIBroker
 EXPOSE 3002
 CMD ["node", "server.js"]
