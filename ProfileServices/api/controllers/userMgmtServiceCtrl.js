@@ -22,22 +22,32 @@ exports.get_history_and_mood = function(req, res) {
 	var jwt_token = utils.get_token_from_header(req);
 	var user_id = (jwt_token != null)? utils.check_validity_and_get_user_id(jwt_token) : null;
 
+
 	if(user_id == null)
 	{
 		res.status(401).json(utils.custom_JSON_formatter("invalid token", "Check Authorization header!"));
 	}
 
 	else{
-		db.collection(UTOPIA_COLLECTION).find({"userId" : user_id}).toArray(function(err, docs){
-			var resultJSON;
-			if(err)
-				resultJSON = utils.custom_JSON_formatter("error", err);
-			else
-				resultJSON = utils.custom_JSON_formatter("success", docs);
+		  MongoClient.connect(MONGO_STRING, function(err, client) {
+			  if(err) {
+			    console.log(err);
+			    return console.error(err);
+			  }
+					
+				var db = client.db('userdb');
 
-			res.json(resultJSON);
+				db.collection(UTOPIA_COLLECTION).find({"userId" : user_id}).toArray(function(err, docs){
+					var resultJSON;
+					if(err)
+						resultJSON = utils.custom_JSON_formatter("error", err);
+					else
+						resultJSON = utils.custom_JSON_formatter("success", docs);
+
+					res.json(resultJSON);
+				});
 		});
-	}
+	 }
 };
 
 
@@ -120,11 +130,11 @@ exports.get_personal_details = function(req,res){
 					resultJSON = utils.custom_JSON_formatter("success", docs);
 				}
 				client.close();
+
 				res.json(resultJSON);
 
 			});
-		  // Starting the server
-		  console.log("[UserMgmt] NodeJS Server started on: " + port);
+		 
 		});
 
 	}

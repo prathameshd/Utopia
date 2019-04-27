@@ -31,4 +31,20 @@ describe('Profile Service', () => {
       });
   });
 
+  /*
+  * Test the /GET get_history_and_mood route
+  */
+  describe('/GET get_history_and_mood', () => {
+      it('it should GET personal details of a user', (done) => {
+        chai.request(server)
+            .get('/getHistoryAndMood')
+            .set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YzdhYmQzMzJkYzUyYjE2ZDM3NzdjOGQifQ.ovKVDjt839GCVo2x8qTsvUFSjNdha8-0d6m99iw8T0w')
+            .end((err, res) => {
+              expect(res.status).to.be.equal(200);
+              expect(res.body).to.be.an('object')
+              done();
+            });
+      });
+  });
+
 });
