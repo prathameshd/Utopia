@@ -8,3 +8,5 @@ passlib
 kazoo
 requests
 pika
+boto
+jinja2
