@@ -79,3 +79,4 @@ client.connect();
   }
 var temp;
 //temp=dynamicAddress();
+module.exports = app

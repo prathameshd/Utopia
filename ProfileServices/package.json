@@ -4,7 +4,7 @@
   "description": "testNodeJS",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+    "test": "mocha --timeout 10000"
   },
   "repository": "",
   "keywords": [
@@ -22,6 +22,9 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.13",
-    "node-zookeeper-client": "latest"
+    "node-zookeeper-client": "latest",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5"
   }
 }
