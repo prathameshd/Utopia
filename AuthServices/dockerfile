@@ -1,7 +1,7 @@
 FROM holbertonschool/ubuntu-1404-python3
 RUN mkdir AuthServices
 COPY . /AuthServices
-RUN cd AuthServices/ && pip3 install -r requirements.txt
+RUN cd AuthServices/ && pip3 install -r requirements.txt && python3 -m unittest tests.registration_test && python3 -m unittest tests.login_test 
 WORKDIR AuthServices
 EXPOSE 5000
 CMD ["python3", "-m", "Controllers.user_controller"]
