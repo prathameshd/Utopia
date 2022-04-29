@@ -6,7 +6,7 @@
   "author": "Amey Tarfe",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
-    "async": "~0.2.8",
+    "async": "~2.6.4",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
