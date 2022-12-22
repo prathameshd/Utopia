@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "eclipse": "^2.0.3",
     "express": "^4.16.4",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.1.13",
     "node-zookeeper-client": "^0.2.3",
     "public-ip": "^3.0.0",
